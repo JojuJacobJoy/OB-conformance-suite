@@ -190,21 +190,21 @@ func loadScriptFiles() (Scripts, References, AccountData, error) {
 		}
 	}
 
-	// sc, err = loadScripts("../../manifests/ob_3.1_payment_fca.json")
-	// if err != nil {
-	// 	sc, err = loadScripts("manifests/ob_3.1_payment_fca.json")
-	// 	if err != nil {
-	// 		return Scripts{}, References{}, AccountData{}, err
-	// 	}
-	// }
+	sc, err = loadScripts("../../manifests/ob_3.1_payment_fca.json")
+	if err != nil {
+		sc, err = loadScripts("manifests/ob_3.1_payment_fca.json")
+		if err != nil {
+			return Scripts{}, References{}, AccountData{}, err
+		}
+	}
 
-	// sc, err = loadScripts("testdata/onePaymentScript.json")
-	// if err != nil {
-	// 	sc, err = loadScripts("pkg/manifest/testdata/onePaymentScript.json")
-	// 	if err != nil {
-	// 		return Scripts{}, References{}, AccountData{}, err
-	// 	}
-	// }
+	sc, err = loadScripts("testdata/onePaymentScript.json")
+	if err != nil {
+		sc, err = loadScripts("pkg/manifest/testdata/onePaymentScript.json")
+		if err != nil {
+			return Scripts{}, References{}, AccountData{}, err
+		}
+	}
 
 	// sc, err = loadScripts("testdata/oneAccountScript.json")
 	// if err != nil {
