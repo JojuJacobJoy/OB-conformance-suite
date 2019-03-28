@@ -385,10 +385,12 @@ func (t *TestCase) logReplaceError(field string, err error, logger *logrus.Logge
 func (t *TestCase) processReplacementFormData(ctx *Context) {
 	var err error
 	for k := range t.Input.FormData {
+		logrus.Tracef("processReplacementFormData:Replacing %s ", t.Input.FormData[k])
 		t.Input.FormData[k], err = replaceContextField(t.Input.FormData[k], ctx)
 		if err != nil {
 			logrus.StandardLogger().WithError(err).Error("processing replacement fields")
 		}
+		logrus.Tracef(" with %s\n", t.Input.FormData[k])
 	}
 }
 

@@ -13,6 +13,7 @@ type TestCasePermission struct {
 	ID     string   `json:"id,omitempty"`
 	Perms  []string `json:"perms,omitempty"`
 	Permsx []string `json:"permsx,omitempty"`
+	Scope  string
 }
 
 // RequiredTokens -
@@ -24,6 +25,7 @@ type RequiredTokens struct {
 	Permsx      []string `json:"permsx,omitempty"`
 	AccessToken string
 	ConsentURL  string
+	Scope       string
 }
 
 // TokenStore eats tokens
@@ -54,9 +56,12 @@ func getTestCasePermissions(tcs []model.TestCase) ([]TestCasePermission, error) 
 			continue
 		}
 		permsx, _ := ctx.GetStringSlice("permissions-excluded")
-		tcp := TestCasePermission{ID: tc.ID, Perms: perms, Permsx: permsx}
+		scope, _ := tc.Context.GetString("tokenScope")
+		tcp := TestCasePermission{ID: tc.ID, Perms: perms, Permsx: permsx, Scope: scope}
 		tcps = append(tcps, tcp)
 	}
+	logrus.Trace("---TestcasePermissions\n")
+	logrus.Tracef("%#v\n", tcps)
 	return tcps, nil
 }
 
@@ -120,7 +125,7 @@ func (te *TokenStore) GetNextTokenName() string {
 func (te *TokenStore) createOrUpdate(tcp TestCasePermission) {
 
 	if len(te.store) == 0 { // First time - no permissions - just add
-		tpg := RequiredTokens{Name: te.GetNextTokenName(), IDs: []string{tcp.ID}, Perms: tcp.Perms, Permsx: tcp.Permsx}
+		tpg := RequiredTokens{Name: te.GetNextTokenName(), IDs: []string{tcp.ID}, Perms: tcp.Perms, Permsx: tcp.Permsx, Scope: tcp.Scope}
 		te.store = append(te.store, tpg)
 		return
 	}
@@ -132,7 +137,7 @@ func (te *TokenStore) createOrUpdate(tcp TestCasePermission) {
 				return
 			}
 		}
-		tpg := RequiredTokens{Name: te.GetNextTokenName(), IDs: []string{tcp.ID}, Perms: tcp.Perms, Permsx: tcp.Permsx}
+		tpg := RequiredTokens{Name: te.GetNextTokenName(), IDs: []string{tcp.ID}, Perms: tcp.Perms, Permsx: tcp.Permsx, Scope: tcp.Scope}
 		te.store = append(te.store, tpg)
 	}
 
@@ -175,7 +180,7 @@ func (te *TokenStore) createOrUpdate(tcp TestCasePermission) {
 		te.store[idx] = newItem
 		return
 	}
-	tpg := RequiredTokens{Name: te.GetNextTokenName(), IDs: []string{tcp.ID}, Perms: tcp.Perms, Permsx: tcp.Permsx}
+	tpg := RequiredTokens{Name: te.GetNextTokenName(), IDs: []string{tcp.ID}, Perms: tcp.Perms, Permsx: tcp.Permsx, Scope: tcp.Scope}
 	te.store = append(te.store, tpg)
 
 	return

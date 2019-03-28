@@ -121,24 +121,15 @@ func (wj *journey) TestCases() (generation.TestCasesRun, error) {
 	if !wj.testCasesRunGenerated {
 		config := wj.makeGeneratorConfig()
 		discovery := wj.validDiscoveryModel.DiscoveryModel
-		//TODO: Remove standard testcase generation
-		//wj.testCasesRun = wj.generator.GenerateSpecificationTestCases(wj.log, config, discovery, &wj.context)
 
 		wj.log.Debugln("Journey:GenerationManifestTests")
-		//tcrun2 := wj.generator.GenerateManifestTests(wj.log, config, discovery, &wj.context) // Integration work in progress
 		wj.testCasesRun = wj.generator.GenerateManifestTests(wj.log, config, discovery, &wj.context) // Integration work in progress
-
-		// wj.testCasesRun.SpecConsentRequirements = append(wj.testCasesRun.SpecConsentRequirements, tcrun2.SpecConsentRequirements...)
-		// wj.testCasesRun.TestCases = append(wj.testCasesRun.TestCases, tcrun2.TestCases...)
-
-		//wj.testCasesRun.SpecConsentRequirements = tcrun2.SpecConsentRequirements
-		//wj.testCasesRun.TestCases = tcrun2.TestCases
 
 		if discovery.TokenAcquisition == "psu" {
 			wj.log.Debugln("Journey:AcquirePSUTokens")
 			definition := wj.makeRunDefinition()
 
-			consentIds, tokenMap, err := executors.InitiationConsentAcquisition(wj.testCasesRun.SpecConsentRequirements, definition, &wj.context, &wj.testCasesRun)
+			consentIds, tokenMap, err := executors.InitiateConsentAcquisition(wj.testCasesRun.SpecConsentRequirements, definition, &wj.context, &wj.testCasesRun)
 			if err != nil {
 				return generation.TestCasesRun{}, errConsentIDAcquisitionFailed
 			}

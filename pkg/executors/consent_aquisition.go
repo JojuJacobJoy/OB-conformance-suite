@@ -15,8 +15,8 @@ import (
 
 var consentChannelTimeout = 30
 
-// InitiationConsentAcquisition - get required tokens
-func InitiationConsentAcquisition(consentRequirements []model.SpecConsentRequirements, definition RunDefinition, ctx *model.Context, runTests *generation.TestCasesRun) (TokenConsentIDs, map[string]string, error) {
+// InitiateConsentAcquisition - get required tokens
+func InitiateConsentAcquisition(consentRequirements []model.SpecConsentRequirements, definition RunDefinition, ctx *model.Context, runTests *generation.TestCasesRun) (TokenConsentIDs, map[string]string, error) {
 	tokenMap := make(map[string]string, 0)
 	consentIDChannel := make(chan TokenConsentIDItem, 100)
 	logger := logrus.StandardLogger().WithField("module", "InitiationConsentAcquisition")
@@ -28,9 +28,7 @@ func InitiationConsentAcquisition(consentRequirements []model.SpecConsentRequire
 	}
 
 	requiredTokens, err := manifest.GetRequiredTokensFromTests(tests)
-	//tokenParameters = getTokenParametersFromRequiredTokens(requiredTokens)
-	_ = requiredTokens
-	logrus.Debugf("required tokens %#v\n", requiredTokens)
+	logrus.Debugf("InitiateConsentAquistion: required tokens %#v\n", requiredTokens)
 
 	for tokenName, permissionList := range tokenParameters {
 		runner := NewConsentAcquisitionRunner(logrus.StandardLogger().WithField("module", "InitiationConsentAcquisition"), definition, NewBufferedDaemonController())

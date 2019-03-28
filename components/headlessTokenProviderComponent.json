@@ -11,7 +11,8 @@
       "authorisation_endpoint": "",
       "resource_server": "",
       "redirect_url": "",
-      "permission_payload": ""
+      "permission_payload": "",
+      "scope":""
     },
     "outputParameters": {
       "result_token":""
@@ -29,7 +30,7 @@
           },
           "formData": {
             "grant_type": "client_credentials",
-            "scope": "accounts openid"
+            "scope": "$scope openid"
           }
         },
         "context": {

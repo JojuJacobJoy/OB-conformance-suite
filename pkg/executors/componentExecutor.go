@@ -32,6 +32,7 @@ func AcquireHeadlessTokens(tests []model.TestCase, ctx *model.Context, definitio
 
 		localCtx := model.Context{}
 		localCtx.PutContext(ctx)
+		localCtx.PutString("scope", tokenGatherer.Scope)
 		localCtx.Put("SigningCert", definition.SigningCert) // For RS256 Claim signing
 		permString := buildPermissionString(tokenGatherer.Perms)
 		if len(permString) == 0 {
@@ -77,6 +78,7 @@ func executeComponent(ctx *model.Context, executor TestCaseExecutor) (*model.Con
 	}
 
 	logrus.Debug("executeComponent - entry")
+
 	err = comp.ValidateParameters(ctx)
 	if err != nil {
 		msg := fmt.Sprintf("error validating headlesstTokenProvider component %s", err.Error())

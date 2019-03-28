@@ -31,6 +31,7 @@ type Script struct {
 	RefURI              string            `json:"refURI,omitempty"`
 	Parameters          map[string]string `json:"parameters,omitempty"`
 	Headers             map[string]string `json:"headers,omitempty"`
+	Body                string            `json:"body,omitempty"`
 	Permissions         []string          `json:"permissions,omitemtpy"`
 	PermissionsExcluded []string          `json:"permissions-excluded,omitemtpy"`
 	Resource            string            `json:"resource,omitempty"`
@@ -50,6 +51,8 @@ type References struct {
 type Reference struct {
 	Expect      model.Expect `json:"expect,omitempty"`
 	Permissions []string     `json:"permissions,omitempty"`
+	Body        interface{}  `json:"body,omitempty"`
+	BodyData    string       `json:"bodyData"`
 }
 
 // AccountData stores account number to be used in the test scripts
@@ -80,8 +83,6 @@ func GenerateTestCases(spec string, baseurl string, ctx *model.Context) ([]model
 		accountCtx.PutString(k, v)
 	}
 
-	ctx.DumpContext("Incoming Ctx")
-
 	tests := []model.TestCase{}
 	for _, script := range scripts.Scripts {
 		logrus.Debug("Process Script:" + script.ID)
@@ -100,13 +101,19 @@ func GenerateTestCases(spec string, baseurl string, ctx *model.Context) ([]model
 
 func (s *Script) processParameters(refs *References, resources *model.Context) (*model.Context, error) {
 	localCtx := model.Context{}
-	var err error
 
 	for k, value := range s.Parameters {
 		if strings.Contains(value, "$") {
 			str := value[1:]
-			value, err = resources.GetString(str)
-			if err != nil {
+			//lookup parameter in resources - accountids
+			value, _ = resources.GetString(str)
+			//lookup parameter in reference data
+			ref := refs.References[str]
+			val := ref.getValue()
+			if len(val) != 0 {
+				value = val
+			}
+			if len(value) == 0 {
 				continue
 			}
 		}
@@ -125,6 +132,10 @@ func (s *Script) processParameters(refs *References, resources *model.Context) (
 	}
 
 	return &localCtx, nil
+}
+
+func (r *Reference) getValue() string {
+	return r.BodyData
 }
 
 func testCaseBuilder(s Script, refs map[string]Reference, ctx *model.Context, consents []string, baseurl string) (model.TestCase, error) {
@@ -161,6 +172,12 @@ func testCaseBuilder(s Script, refs map[string]Reference, ctx *model.Context, co
 	}
 	ctx.PutContext(&tc.Context)
 	tc.ProcessReplacementFields(ctx, false)
+
+	_, exists := tc.Context.GetString("postData")
+	if exists == nil {
+		tc.Context.Delete("postData") // tidy context as bodydata potentially large
+	}
+
 	return tc, nil
 }
 
@@ -175,6 +192,8 @@ func buildInputSection(s Script, i *model.Input) {
 	for k, v := range s.Headers {
 		i.Headers[k] = v
 	}
+	i.RequestBody = s.Body
+
 }
 
 func loadGenerationResources() (Scripts, References, AccountData, error) {
@@ -190,13 +209,23 @@ func loadScriptFiles() (Scripts, References, AccountData, error) {
 		}
 	}
 
-	sc, err = loadScripts("../../manifests/ob_3.1_payment_fca.json")
-	if err != nil {
-		sc, err = loadScripts("manifests/ob_3.1_payment_fca.json")
-		if err != nil {
-			return Scripts{}, References{}, AccountData{}, err
-		}
-	}
+	// sc, err = loadScripts("../../manifests/ob_3.1_payment_fca.json")
+	// if err != nil {
+	// 	sc, err = loadScripts("manifests/ob_3.1_payment_fca.json")
+	// 	if err != nil {
+	// 		return Scripts{}, References{}, AccountData{}, err
+	// 	}
+	// }
+
+	// sc, err = loadScripts("testdata/onePaymentScript.json")
+
+	// if err != nil {
+	// 	sc, err = loadScripts("pkg/manifest/testdata/onePaymentScript.json")
+	// 	//sc, err = loadScripts("pkg/manifest/testdata/scratchpayments.json")
+	// 	if err != nil {
+	// 		return Scripts{}, References{}, AccountData{}, err
+	// 	}
+	// }
 
 	sc, err = loadScripts("testdata/onePaymentScript.json")
 	if err != nil {
@@ -206,20 +235,31 @@ func loadScriptFiles() (Scripts, References, AccountData, error) {
 		}
 	}
 
-	// sc, err = loadScripts("testdata/oneAccountScript.json")
-	// if err != nil {
-	// 	sc, err = loadScripts("pkg/manifest/testdata/oneAccountScript.json")
-	// 	if err != nil {
-	// 		return Scripts{}, References{}, AccountData{}, err
-	// 	}
-	// }
-
 	refs, err := loadReferences("../../manifests/assertions.json")
 	if err != nil {
+		fmt.Println("error: loadReferences(Assertings" + err.Error())
 		refs, err = loadReferences("manifests/assertions.json")
 		if err != nil {
 			return Scripts{}, References{}, AccountData{}, err
 		}
+	}
+
+	refs2, err := loadReferences("../../manifests/data.json")
+	if err != nil {
+		refs2, err = loadReferences("manifests/data.json")
+		if err != nil {
+			return Scripts{}, References{}, AccountData{}, err
+		}
+	}
+	for k, v := range refs2.References { // read in data references with body payloads
+		body := jsonString(v.Body)
+		l := len(body)
+		if l > 0 {
+			v.BodyData = body
+			v.Body = ""
+			refs2.References[k] = v
+		}
+		refs.References[k] = refs2.References[k]
 	}
 
 	ad, err := loadAccountData("testdata/resources.json") // temp integration shiv
@@ -275,19 +315,6 @@ func loadReferences(filename string) (References, error) {
 	return m, nil
 }
 
-func loadTestPlan(filename string) (TestPlan, error) {
-	plan, err := ioutil.ReadFile(filename)
-	if err != nil {
-		return TestPlan{}, err
-	}
-	var m TestPlan
-	err = json.Unmarshal(plan, &m)
-	if err != nil {
-		return TestPlan{}, err
-	}
-	return m, nil
-}
-
 // ScriptPermission -
 type ScriptPermission struct {
 	ID          string
@@ -318,4 +345,10 @@ func dumpJSON(i interface{}) {
 	var model []byte
 	model, _ = json.MarshalIndent(i, "", "    ")
 	fmt.Println(string(model))
+}
+
+func jsonString(i interface{}) string {
+	var model []byte
+	model, _ = json.MarshalIndent(i, "", "    ")
+	return string(model)
 }
