@@ -52,3 +52,22 @@ func TestGenerateTestCases(t *testing.T) {
 	}
 
 }
+
+func TestCheckPaymentPermissions(t *testing.T) {
+	tests, err := GenerateTestCases("TestSpec", "http://mybaseurl", &model.Context{})
+	assert.Nil(t, err)
+
+	perms, err := GetPaymentPermissions(tests)
+	assert.Nil(t, err)
+	m := make(map[string]string, 0)
+	for _, v := range perms {
+		m[v.Path] = v.ID
+		fmt.Printf("%s %s\n", v.ID, v.Path)
+	}
+
+	fmt.Println("DumpTests:----")
+	for _, v := range tests {
+		dumpJSON(v)
+	}
+
+}

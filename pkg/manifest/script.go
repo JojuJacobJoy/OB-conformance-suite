@@ -227,13 +227,13 @@ func loadScriptFiles() (Scripts, References, AccountData, error) {
 	// 	}
 	// }
 
-	sc, err = loadScripts("testdata/onePaymentScript.json")
-	if err != nil {
-		sc, err = loadScripts("pkg/manifest/testdata/onePaymentScript.json")
-		if err != nil {
-			return Scripts{}, References{}, AccountData{}, err
-		}
-	}
+	// sc, err = loadScripts("testdata/onePaymentScript.json")
+	// if err != nil {
+	// 	sc, err = loadScripts("pkg/manifest/testdata/onePaymentScript.json")
+	// 	if err != nil {
+	// 		return Scripts{}, References{}, AccountData{}, err
+	// 	}
+	// }
 
 	refs, err := loadReferences("../../manifests/assertions.json")
 	if err != nil {
@@ -338,6 +338,26 @@ func GetPermissions(tests []model.TestCase) ([]ScriptPermission, error) {
 	}
 
 	return permCollector, nil
+}
+
+// GetPaymentPermissions -
+func GetPaymentPermissions(tests []model.TestCase) ([]ScriptPermission, error) {
+	permCollector := []ScriptPermission{}
+	for _, test := range tests {
+		ctx := test.Context
+		perms, err := ctx.GetString("requestConsent")
+		if err != nil {
+			continue
+		}
+		if perms != "true" {
+			continue
+		}
+		sp := ScriptPermission{ID: test.ID, Path: test.Input.Method + " " + test.Input.Endpoint}
+		permCollector = append(permCollector, sp)
+	}
+
+	return permCollector, nil
+
 }
 
 // Utility to Dump Json

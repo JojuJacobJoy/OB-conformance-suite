@@ -15,8 +15,26 @@ import (
 
 var consentChannelTimeout = 30
 
-// InitiateConsentAcquisition - get required tokens
+// InitiateConsentAcquisition -
 func InitiateConsentAcquisition(consentRequirements []model.SpecConsentRequirements, definition RunDefinition, ctx *model.Context, runTests *generation.TestCasesRun) (TokenConsentIDs, map[string]string, error) {
+
+	for _, v := range runTests.TestCases {
+		specType, err := generation.GetSpecType(v.Specification.Name)
+		if err != nil {
+			logrus.Warnf("cannot get spec type fo name %s\n", v.Specification.Name)
+		}
+		switch specType {
+		case "accounts":
+			return InitiateAccountConsentAcquisition(consentRequirements, definition, ctx, runTests) // accounts consent handling
+		case "payments":
+		}
+	}
+
+	return InitiateAccountConsentAcquisition(consentRequirements, definition, ctx, runTests)
+}
+
+// InitiateAccountConsentAcquisition - get required tokens
+func InitiateAccountConsentAcquisition(consentRequirements []model.SpecConsentRequirements, definition RunDefinition, ctx *model.Context, runTests *generation.TestCasesRun) (TokenConsentIDs, map[string]string, error) {
 	tokenMap := make(map[string]string, 0)
 	consentIDChannel := make(chan TokenConsentIDItem, 100)
 	logger := logrus.StandardLogger().WithField("module", "InitiationConsentAcquisition")
@@ -27,7 +45,7 @@ func InitiateConsentAcquisition(consentRequirements []model.SpecConsentRequireme
 		tests = append(tests, v.TestCases...)
 	}
 
-	requiredTokens, err := manifest.GetRequiredTokensFromTests(tests)
+	requiredTokens, err := manifest.GetRequiredTokensFromTests(tests, "accounts")
 	logrus.Debugf("InitiateConsentAquistion: required tokens %#v\n", requiredTokens)
 
 	for tokenName, permissionList := range tokenParameters {

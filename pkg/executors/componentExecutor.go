@@ -5,59 +5,69 @@ import (
 	"errors"
 	"fmt"
 
+	"bitbucket.org/openbankingteam/conformance-suite/pkg/generation"
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/manifest"
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/model"
 	"github.com/sirupsen/logrus"
 )
 
 // AcquireHeadlessTokens from manifest generated test cases
-func AcquireHeadlessTokens(tests []model.TestCase, ctx *model.Context, definition RunDefinition) ([]manifest.RequiredTokens, error) {
-	logrus.Debug("=================================================================================================================")
-	defer logrus.Debug("=================================================================================================================")
-	logrus.Debug("AcquireHeadlessTokens")
-	bodyDataStart := "{\"Data\": { \"Permissions\": ["
-	//TODO: sort out consent transaction timestamps
-	bodyDataEnd := "], \"TransactionFromDateTime\": \"2016-01-01T10:40:00+02:00\", \"TransactionToDateTime\": \"2025-12-31T10:40:00+02:00\" },  \"Risk\": {} }"
+func AcquireHeadlessTokens(specs []generation.SpecificationTestCases, ctx *model.Context, definition RunDefinition) ([]manifest.RequiredTokens, error) {
 
-	executor := NewExecutor()
-	err := executor.SetCertificates(definition.SigningCert, definition.TransportCert)
-	if err != nil {
-		return nil, err
-	}
+	requiredTokens := []manifest.RequiredTokens{}
+	for _, spec := range specs {
+		tests := spec.TestCases
 
-	requiredTokens, err := manifest.GetRequiredTokensFromTests(tests)
-	logrus.Debugf("required tokens %#v\n", requiredTokens)
+		logrus.Debug("=================================================================================================================")
+		defer logrus.Debug("=================================================================================================================")
+		logrus.Debugf("AcquireHeadlessTokens for spec: %s\n", spec.Specification.Name)
+		bodyDataStart := "{\"Data\": { \"Permissions\": ["
+		//TODO: sort out consent transaction timestamps
+		bodyDataEnd := "], \"TransactionFromDateTime\": \"2016-01-01T10:40:00+02:00\", \"TransactionToDateTime\": \"2025-12-31T10:40:00+02:00\" },  \"Risk\": {} }"
 
-	for k, tokenGatherer := range requiredTokens {
-
-		localCtx := model.Context{}
-		localCtx.PutContext(ctx)
-		localCtx.PutString("scope", tokenGatherer.Scope)
-		localCtx.Put("SigningCert", definition.SigningCert) // For RS256 Claim signing
-		permString := buildPermissionString(tokenGatherer.Perms)
-		if len(permString) == 0 {
-			continue
-		}
-		bodyData := bodyDataStart + permString + bodyDataEnd
-		tokenName := tokenGatherer.Name
-		localCtx.PutString("permission_payload", bodyData)
-		localCtx.PutString("result_token", tokenName)
-
-		returnCtx, err := executeComponent(&localCtx, executor)
+		executor := NewExecutor()
+		err := executor.SetCertificates(definition.SigningCert, definition.TransportCert)
 		if err != nil {
 			return nil, err
 		}
-		returnCtx.DumpContext("Return Context", tokenName, "client_access_token")
-		clientGrantToken, _ := returnCtx.GetString("client_access_token")
-		ctx.PutString("client_access_token", clientGrantToken)
-		token, err := returnCtx.GetString(tokenName)
+		apitype, err := generation.GetSpecType(spec.Specification.Name)
 		if err != nil {
-			return nil, err
+			logrus.Warnf("Cannot get spec type from %s", spec.Specification.Name)
 		}
-		tokenGatherer.Token = token
-		requiredTokens[k] = tokenGatherer
-	}
+		requiredTokens, err := manifest.GetRequiredTokensFromTests(tests, apitype)
+		logrus.Debugf("required tokens %#v\n", requiredTokens)
 
+		for k, tokenGatherer := range requiredTokens {
+
+			localCtx := model.Context{}
+			localCtx.PutContext(ctx)
+			localCtx.PutString("scope", tokenGatherer.Scope)
+			localCtx.Put("SigningCert", definition.SigningCert) // For RS256 Claim signing
+			permString := buildPermissionString(tokenGatherer.Perms)
+			if len(permString) == 0 {
+				continue
+			}
+			bodyData := bodyDataStart + permString + bodyDataEnd
+			tokenName := tokenGatherer.Name
+			localCtx.PutString("permission_payload", bodyData)
+			localCtx.PutString("result_token", tokenName)
+
+			returnCtx, err := executeComponent(&localCtx, executor)
+			if err != nil {
+				return nil, err
+			}
+			returnCtx.DumpContext("Return Context", tokenName, "client_access_token")
+			clientGrantToken, _ := returnCtx.GetString("client_access_token")
+			ctx.PutString("client_access_token", clientGrantToken)
+			token, err := returnCtx.GetString(tokenName)
+			if err != nil {
+				return nil, err
+			}
+			tokenGatherer.Token = token
+			requiredTokens[k] = tokenGatherer
+		}
+
+	}
 	return requiredTokens, nil
 }
 

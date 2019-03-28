@@ -2,6 +2,8 @@
 package generation
 
 import (
+	"errors"
+
 	"bitbucket.org/openbankingteam/conformance-suite/internal/pkg/names"
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/discovery"
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/manifest"
@@ -59,8 +61,12 @@ func (g generator) GenerateManifestTests(log *logrus.Entry, config GeneratorConf
 		}
 		stc := SpecificationTestCases{Specification: item.APISpecification, TestCases: tcs}
 		log.Debugf("%d test cases generated for %s", len(tcs), item.APISpecification.Name)
-
-		requiredTokens, _ := manifest.GetRequiredTokensFromTests(tcs)
+		specType, err := GetSpecType(item.APISpecification.Name)
+		if err != nil {
+			log.Warnf("%s\n", err.Error())
+			continue
+		}
+		requiredTokens, _ := manifest.GetRequiredTokensFromTests(tcs, specType)
 		var tokenSlice []model.SpecConsentRequirements
 		tokenSlice, _ = getSpecConsentsFromRequiredTokens(requiredTokens)
 		specConsentRequirements = append(specConsentRequirements, tokenSlice...)
@@ -68,6 +74,17 @@ func (g generator) GenerateManifestTests(log *logrus.Entry, config GeneratorConf
 	}
 
 	return TestCasesRun{specTestCases, specConsentRequirements}
+}
+
+// GetSpecType - returns a shorted form of the spec name
+func GetSpecType(spec string) (string, error) {
+	switch spec {
+	case "Account and Transaction API Specification":
+		return "accounts", nil
+	case "Payment Initiation API":
+		return "payments", nil
+	}
+	return "unknown", errors.New("Unknown specification " + spec)
 }
 
 func getSpecConsentsFromRequiredTokens(rt []manifest.RequiredTokens) ([]model.SpecConsentRequirements, error) {

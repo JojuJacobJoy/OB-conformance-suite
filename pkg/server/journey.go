@@ -141,7 +141,7 @@ func (wj *journey) TestCases() (generation.TestCasesRun, error) {
 			wj.log.Debugln("Journey:AcquireHeadlessTokens")
 			runDefinition := wj.makeRunDefinition()
 			// TODO:Process multiple specs ... don't restrict to element [0]!!
-			tokenPermissionsMap, err := executors.AcquireHeadlessTokens(wj.testCasesRun.TestCases[0].TestCases, &wj.context, runDefinition)
+			tokenPermissionsMap, err := executors.AcquireHeadlessTokens(wj.testCasesRun.TestCases, &wj.context, runDefinition)
 			if err != nil {
 				return generation.TestCasesRun{}, errConsentIDAcquisitionFailed
 			}
@@ -220,7 +220,7 @@ func (wj *journey) RunTests() error {
 	// map tokens to Testcases
 	var err error
 	for _, tests := range wj.testCasesRun.TestCases {
-		requiredTokens, err = manifest.GetRequiredTokensFromTests(tests.TestCases)
+		requiredTokens, err = manifest.GetRequiredTokensFromTests(tests.TestCases, "accounts")
 		if err != nil {
 			wj.log.Warn("Testcase Token setup failed")
 			return errTokenMappingFailed

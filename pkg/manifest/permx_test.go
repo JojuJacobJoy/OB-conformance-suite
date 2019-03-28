@@ -49,3 +49,7 @@ func getToken(perms []string) (string, error) {
 
 	return "abigfattoken", nil
 }
+
+func TestGetPaymentPermissions(t *testing.T) {
+
+}
