@@ -1,9 +1,10 @@
 package model
 
 import (
+	"crypto/rsa"
 	"encoding/json"
-	"errors"
 	"fmt"
+	"github.com/pkg/errors"
 	"net/url"
 	"time"
 
@@ -98,19 +99,20 @@ func (i *Input) setClaims(tc *TestCase, ctx *Context) error {
 			fallthrough
 		case "consenturl":
 			i.AppMsg("==> executing consenturl strategy")
-			token, err := i.createAlgNoneJWT()
+			signKey, _ := ctx.Get("signing_key")
+			token, err := i.createPSUConsentRequestJWT(signKey.(*rsa.PrivateKey))
 			if err != nil {
 				return i.AppErr(fmt.Sprintf("error creating AlgNoneJWT %s", err.Error()))
 			}
 			i.AppMsg(fmt.Sprintf("jwt consent Token: %s", token))
-			consent := i.Claims["aud"] + "/auth?" + "client_id=" + i.Claims["iss"] + "&response_type=" + i.Claims["responseType"] + "&scope=" + url.QueryEscape(i.Claims["scope"]) + "&request=" + token + "&state=" + i.Claims["state"]
+			authEndpoint, _ := ctx.Get("authorisation_endpoint")
+			consent := authEndpoint.(string) + "?" + "client_id=" + i.Claims["iss"] + "&response_type=" + i.Claims["responseType"] + "&scope=" + url.QueryEscape(i.Claims["scope"]) + "&request=" + token + "&state=" + i.Claims["state"]
 
 			tc.Input.Endpoint = consent           // Result - set jwt token in endpoint url
 			ctx.PutString("consent_url", consent) // make consent available in context
-			logrus.Tracef("===> consentURL: " + consent)
 			i.AppMsg("consent url: " + tc.Input.Endpoint)
 			if i.Generation["strategy"] == "psuConsenturl" {
-				tc.Input.Endpoint = i.Claims["aud"] + "/PsuDummyURL"
+				tc.Input.Endpoint = i.Claims["aud"] + "/invalid"
 			}
 		case "jwt-bearer":
 			i.AppMsg("==> executing jwt-bearer strategy")
@@ -266,12 +268,20 @@ type consentIDTok struct {
 
 // Initial implementation of JWT creation with algorithm 'None'
 // Used only to support the PSU consent URL generation for headless consent flow
-func (i *Input) createAlgNoneJWT() (string, error) {
+func (i *Input) createPSUConsentRequestJWT(signKey *rsa.PrivateKey) (string, error) {
 	claims := jwt.MapClaims{}
 	claims["iss"] = i.Claims["iss"]
 	claims["scope"] = i.Claims["scope"]
 	claims["aud"] = i.Claims["aud"]
-	claims["redirect_uri"] = i.Claims["redirect_url"]
+	claims["redirect_uri"] = "https://127.0.0.1:8443/conformancesuite/callback"
+	claims["client_id"] = i.Claims["iss"]
+	claims["sub"] = i.Claims["iss"]
+	claims["iat"] = time.Now().Unix()
+	claims["exp"] = time.Now().Add(time.Minute * time.Duration(60)).Unix()
+	claims["jti"] = uuid.New()
+	claims["response_type"] = i.Claims["responseType"]
+	claims["state"] = i.Claims["state"]
+	claims["nonce"] = uuid.New()
 
 	consentClaim := consentClaims{Essential: true, Value: i.Claims["consentId"]}
 	myident := obintentID{IntentID: consentClaim}
@@ -279,24 +289,36 @@ func (i *Input) createAlgNoneJWT() (string, error) {
 
 	claims["claims"] = consentIDToken
 
-	alg := jwt.SigningMethodNone
-	if alg == nil {
-		return "", errors.New(i.AppMsg(fmt.Sprintf("no signing method: %v", alg)))
-	}
-
 	token := &jwt.Token{
 		Header: map[string]interface{}{
-			"alg": alg.Alg(),
+			"kid": "8814831e1375e5b5252e415af39c05f30c395b57",
 		},
 		Claims: claims,
-		Method: alg,
 	}
 
-	tokenString, err := token.SigningString() // sign the token - get as encoded string
-	if err != nil {
-		i.AppMsg(fmt.Sprintf("error signing jwt: %s", err.Error()))
-		return "", err
+	// Can choose not to sign key by passing in nil key
+	if signKey == nil {
+		alg := jwt.SigningMethodNone
+		token.Header["alg"] = alg.Alg()
+		token.Method = alg
+
+		tokenString, err := token.SigningString() // sign the token - get as encoded string
+		if err != nil {
+			i.AppMsg(fmt.Sprintf("error signing jwt: %s", err.Error()))
+			return "", err
+		}
+		tokenString += "."
+		return tokenString, nil
 	}
-	tokenString += "."
-	return tokenString, nil
+
+	alg := jwt.SigningMethodRS256
+	token.Header["alg"] = alg.Alg()
+	token.Method = alg
+
+	signed, err := token.SignedString(signKey)
+	if err != nil {
+		return "", errors.Wrap(err, "token.signedString()")
+	}
+
+	return signed, nil
 }

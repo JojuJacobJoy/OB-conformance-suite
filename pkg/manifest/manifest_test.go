@@ -24,7 +24,7 @@ func TestDiscoveryEndpointsMapToManifestCorrectly(t *testing.T) {
 				"manifest": "file://manifests/ob_3.1__accounts_fca.json"
 			},
 			"openidConfigurationUri": "https://modelobankauth2018.o3bank.co.uk:4101/.well-known/openid-configuration",
-			"resourceBaseUri": "https://modelobank2018.o3bank.co.uk:4501/open-banking/v3.1/aisp",
+			"resourceBaseUri": "https://modelobank2018.o3bank.co.uk:4501/open-banking/v3.1",
 			"resourceIds": {
 				"ConsentId": "$consent_id"
 			},
@@ -192,7 +192,7 @@ func TestUnMappedManifestItemsReportedCorrectly(t *testing.T) {
 				"manifest": "file://manifests/ob_3.1__accounts_fca.json"
 			},
 			"openidConfigurationUri": "https://modelobankauth2018.o3bank.co.uk:4101/.well-known/openid-configuration",
-			"resourceBaseUri": "https://modelobank2018.o3bank.co.uk:4501/open-banking/v3.1/aisp",
+			"resourceBaseUri": "https://modelobank2018.o3bank.co.uk:4501/open-banking/v3.1",
 			"resourceIds": {
 				"ConsentId": "$consent_id"
 			},

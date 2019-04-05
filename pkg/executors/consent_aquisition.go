@@ -266,7 +266,7 @@ func exchangeCodeForToken(code, scope string, ctx *model.Context, logger *logrus
 		SetHeader("authorization", "Basic "+basicAuth).
 		SetFormData(map[string]string{
 			"grant_type":   "authorization_code",
-			"scope":        scope, // accounts or payments currently
+			//"scope":        scope, // accounts or payments currently
 			"code":         code,
 			"redirect_uri": redirectURL,
 		}).
