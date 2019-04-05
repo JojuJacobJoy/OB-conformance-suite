@@ -5,8 +5,9 @@ import (
 	"fmt"
 	"strings"
 
-	"bitbucket.org/openbankingteam/conformance-suite/pkg/model"
 	"github.com/sirupsen/logrus"
+
+	"bitbucket.org/openbankingteam/conformance-suite/pkg/model"
 )
 
 // TestCasePermission -
@@ -36,18 +37,30 @@ type TokenStore struct {
 	store     []RequiredTokens
 }
 
+var accountSwaggerLocation31 = "https://raw.githubusercontent.com/OpenBankingUK/read-write-api-specs/v3.1.0/dist/account-info-swagger.json"
+var accountSwaggerLocation30 = "https://raw.githubusercontent.com/OpenBankingUK/read-write-api-specs/v3.0.0/dist/account-info-swagger.json"
+var paymentsSwaggerLocation31 = "https://raw.githubusercontent.com/OpenBankingUK/read-write-api-specs/v3.1.0/dist/payment-initiation-swagger.json"
+var paymentsSwaggerLocation30 = "https://raw.githubusercontent.com/OpenBankingUK/read-write-api-specs/v3.0.0/dist/payment-initiation-swagger.json"
+
+var confirmSwaggerLocation = ""
+var notificationSwaggerLocation = ""
+
 // GetSpecType -
 // TODO - check that this mapping is reasonable
 func GetSpecType(s string) (string, error) {
 	spec := strings.TrimSpace(s)
 	switch spec {
-	case "Account and Transaction API Specification":
+	case accountSwaggerLocation31:
+		fallthrough
+	case accountSwaggerLocation30:
 		return "accounts", nil
-	case "Payment Initiation API":
+	case paymentsSwaggerLocation31:
+		fallthrough
+	case paymentsSwaggerLocation30:
 		return "payments", nil
-	case "Confirmation of Funds API Specification":
+	case confirmSwaggerLocation:
 		return "funds", nil
-	case "Event Notification API Specification - ASPSP Endpoints":
+	case notificationSwaggerLocation:
 		return "notifications", nil
 	}
 	return "unknown", errors.New("Unknown specification:  `" + spec + "`")
@@ -167,7 +180,49 @@ func getRequiredTokens(tcps []TestCasePermission) ([]RequiredTokens, error) {
 
 // MapTokensToTestCases - applies consented tokens to testcases
 func MapTokensToTestCases(rt []RequiredTokens, tcs []model.TestCase) map[string]string {
-	tokenMap := make(map[string]string, 0)
+	ctxLogger := logrus.StandardLogger().WithFields(logrus.Fields{
+		"function": "MapTokensToTestCases",
+		"rt":       fmt.Sprintf("%#v", rt),
+	})
+
+	ctxLogger.Debug("MapTokensToTestCases ...")
+	tokenMap := map[string]string{}
+	for k, test := range tcs {
+		tokenName, isEmptyToken, err := getRequiredTokenForTestcase(rt, test.ID)
+		if err != nil {
+			ctxLogger.WithFields(logrus.Fields{
+				"test":         fmt.Sprintf("%#v", test),
+				"tokenName":    tokenName,
+				"isEmptyToken": isEmptyToken,
+				"err":          err,
+			}).Error("Error getRequiredTokenForTestcase")
+			continue
+		}
+
+		if !isEmptyToken {
+			ctxLogger.WithFields(logrus.Fields{
+				"test":         fmt.Sprintf("%#v", test),
+				"tokenName":    tokenName,
+				"isEmptyToken": isEmptyToken,
+			}).Info("InjectBearerToken ...")
+			test.InjectBearerToken("$" + tokenName)
+		}
+
+		tcs[k] = test
+	}
+	for _, v := range rt {
+		tokenMap[v.Name] = v.Token
+	}
+
+	ctxLogger.WithFields(logrus.Fields{
+		"tokenMap": fmt.Sprintf("%#v", tokenMap),
+	}).Info("Mapped RequiredTokens to TestCases")
+
+	return tokenMap
+}
+
+// MapTokensToPaymentTestCases -
+func MapTokensToPaymentTestCases(rt []RequiredTokens, tcs []model.TestCase, ctx *model.Context) {
 	for k, test := range tcs {
 		tokenName, isEmptyToken, err := getRequiredTokenForTestcase(rt, test.ID)
 		if err != nil {
@@ -175,15 +230,15 @@ func MapTokensToTestCases(rt []RequiredTokens, tcs []model.TestCase) map[string]
 			continue
 		}
 		if !isEmptyToken {
-			test.InjectBearerToken("$" + tokenName)
+			token, exists := ctx.GetString(tokenName)
+			if exists == nil {
+				test.InjectBearerToken(token)
+			} else {
+				test.InjectBearerToken("$" + tokenName)
+			}
 		}
 		tcs[k] = test
 	}
-	for _, v := range rt {
-		tokenMap[v.Name] = v.Token
-	}
-
-	return tokenMap
 }
 
 // gets token name from a testcase id

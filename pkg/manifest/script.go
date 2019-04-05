@@ -98,34 +98,53 @@ func (cj *ConsentJobs) Get(testid string) (model.TestCase, bool) {
 
 // GenerateTestCases examines a manifest file, asserts file and resources definition, then builds the associated test cases
 func GenerateTestCases(spec string, baseurl string, ctx *model.Context) ([]model.TestCase, error) {
+	logger := logrus.WithFields(logrus.Fields{
+		"function": "GenerateTestCases",
+	})
+
 	specType, err := GetSpecType(spec)
 	if err != nil {
 		return nil, errors.New("unknown specification " + spec)
 	}
 	logrus.Debug("GenerateManifestTestCases for spec type:" + specType)
-	scripts, refs, resources, err := loadGenerationResources(specType)
+	scripts, refs, err := loadGenerationResources(specType)
 	if err != nil {
+		logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Error on loadGenerationResources")
 		return nil, err
 	}
 
 	// accumulate context data from accountsData ...
-	accountCtx := model.Context{}
-	for k, v := range resources.Ais { //TODO:Get Account info from config file
-		accountCtx.PutString(k, v)
-	}
+	// accountCtx := model.Context{}
+	// for k, v := range resources.Ais { //TODO:Get Account info from config file
+	// 	accountCtx.PutString(k, v)
+	// }
 
 	ctx.DumpContext("Incoming Ctx")
 
 	tests := []model.TestCase{}
 	for _, script := range scripts.Scripts {
-		localCtx, err := script.processParameters(&refs, &accountCtx)
+		localCtx, err := script.processParameters(&refs, ctx)
 		if err != nil {
+			logger.WithFields(logrus.Fields{
+				"err": err,
+			}).Error("Error on processParameters")
 			return nil, err
 		}
+
 		consents := []string{}
-		tc, _ := testCaseBuilder(script, refs.References, localCtx, consents, baseurl)
+		tc, err := testCaseBuilder(script, refs.References, localCtx, consents, baseurl)
+		if err != nil {
+			logger.WithFields(logrus.Fields{
+				"err": err,
+			}).Error("Error on testCaseBuilder")
+		}
+
 		localCtx.PutContext(ctx)
-		tc.ProcessReplacementFields(localCtx, false)
+		showReplacementErrors := true
+		tc.ProcessReplacementFields(localCtx, showReplacementErrors)
+
 		tests = append(tests, tc)
 	}
 	return tests, nil
@@ -275,26 +294,22 @@ func buildInputSection(s Script, i *model.Input) {
 	i.RequestBody = s.Body
 }
 
-func loadGenerationResources(specType string) (Scripts, References, AccountData, error) {
+func loadGenerationResources(specType string) (Scripts, References, error) {
 	assertions, err := loadAssertions()
 	if err != nil {
-		return Scripts{}, References{}, AccountData{}, err
-	}
-	accountData, err := loadAccounts()
-	if err != nil {
-		return Scripts{}, References{}, AccountData{}, err
+		return Scripts{}, References{}, err
 	}
 	switch specType {
 	case "accounts":
 		sc, err := loadTransactions31()
-		return sc, assertions, accountData, err
+		return sc, assertions, err
 	case "payments":
 		pay, err := loadPayments31()
-		return pay, assertions, accountData, err
+		return pay, assertions, err
 	case "cbpii":
 	case "notifications":
 	}
-	return Scripts{}, References{}, AccountData{}, errors.New("loadGenerationResources: invalid spec type")
+	return Scripts{}, References{}, errors.New("loadGenerationResources: invalid spec type")
 }
 
 func loadPayments31() (Scripts, error) {
@@ -347,31 +362,6 @@ func jsonString(i interface{}) string {
 	var model []byte
 	model, _ = json.MarshalIndent(i, "", "    ")
 	return string(model)
-}
-
-func loadAccounts() (AccountData, error) {
-	ad, err := loadAccountData("testdata/resources.json") // temp integration shiv
-	if err != nil {
-		ad, err = loadAccountData("pkg/manifest/testdata/resources.json")
-		if err != nil {
-			ad, err = loadAccountData("../manifest/testdata/resources.json")
-		}
-	}
-	return ad, err
-
-}
-
-func loadAccountData(filename string) (AccountData, error) {
-	plan, err := ioutil.ReadFile(filename)
-	if err != nil {
-		return AccountData{}, err
-	}
-	var m AccountData
-	err = json.Unmarshal(plan, &m)
-	if err != nil {
-		return AccountData{}, err
-	}
-	return m, nil
 }
 
 func loadScripts(filename string) (Scripts, error) {

@@ -2,12 +2,13 @@
 package generation
 
 import (
+	"github.com/sirupsen/logrus"
+
 	"bitbucket.org/openbankingteam/conformance-suite/internal/pkg/names"
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/discovery"
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/manifest"
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/model"
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/permissions"
-	"github.com/sirupsen/logrus"
 )
 
 // SpecificationTestCases - test cases generated for a specification
@@ -43,17 +44,41 @@ type generator struct {
 	resolver func(groups []permissions.Group) permissions.CodeSetResultSet
 }
 
+// shouldIgnoreDiscoveryItem - determine if we should process a `SchemaVersion`. Currently only the following are supported:
+// * `Account and Transaction API Specification`
+// * `Confirmation of Funds API Specification`
+//
+// All else returns `true`.
+func shouldIgnoreDiscoveryItem(apiSpecification discovery.ModelAPISpecification) bool {
+	shouldIgnore := true
+
+	supportedSchemaVersions := []string{
+		// `Account and Transaction API Specification
+		"https://raw.githubusercontent.com/OpenBankingUK/read-write-api-specs/v3.1.0/dist/account-info-swagger.json",
+		// `Confirmation of Funds API Specification`
+		"https://raw.githubusercontent.com/OpenBankingUK/read-write-api-specs/v3.1.0/dist/confirmation-funds-swagger.json",
+	}
+	for _, supportedSchemaVersion := range supportedSchemaVersions {
+		if apiSpecification.SchemaVersion == supportedSchemaVersion {
+			return false
+		}
+	}
+
+	return shouldIgnore
+}
+
 // Work in progress to integrate Manifest Test
 func (g generator) GenerateManifestTests(log *logrus.Entry, config GeneratorConfig, discovery discovery.ModelDiscovery, ctx *model.Context) (TestCasesRun, map[string][]manifest.RequiredTokens) {
 	log = log.WithField("module", "GenerateManifestTests")
 	for k, item := range discovery.DiscoveryItems {
-		spectype, err := manifest.GetSpecType(item.APISpecification.Name)
-		item.APISpecification.SpecType = spectype
-		log.Debugf("Generating testcases for %s API\n", spectype)
+		spectype, err := manifest.GetSpecType(item.APISpecification.SchemaVersion)
 		if err != nil {
-			log.Warnf("specification %s not found\n", item.APISpecification.Name)
+			logrus.Warnf("Cannot get spec type from scheam version: " + item.APISpecification.SchemaVersion)
+			log.Warnf("specification %s not found\n", item.APISpecification.SchemaVersion)
 			continue
 		}
+		item.APISpecification.SpecType = spectype
+		log.Debugf("Generating testcases for %s API\n", spectype)
 		discovery.DiscoveryItems[k].APISpecification.SpecType = spectype
 	}
 
@@ -62,9 +87,9 @@ func (g generator) GenerateManifestTests(log *logrus.Entry, config GeneratorConf
 	tokens := map[string][]manifest.RequiredTokens{}
 
 	for _, item := range discovery.DiscoveryItems { //TODO: sort out different specs etc
-		tcs, err := manifest.GenerateTestCases(item.APISpecification.Name, item.ResourceBaseURI, ctx) //TODO: ensure we can handle multiple specs
+		tcs, err := manifest.GenerateTestCases(item.APISpecification.SchemaVersion, item.ResourceBaseURI, ctx) //TODO: ensure we can handle multiple specs
 		if err != nil {
-			log.Warnf("manifest testcase generation failed for %s", item.APISpecification.Name)
+			log.Warnf("manifest testcase generation failed for %s", item.APISpecification.SchemaVersion)
 			continue
 		}
 		spectype := item.APISpecification.SpecType
@@ -168,13 +193,4 @@ func (g generator) consentRequirements(specTestCases []SpecificationTestCases) [
 type TestCasesRun struct {
 	TestCases               []SpecificationTestCases        `json:"specCases"`
 	SpecConsentRequirements []model.SpecConsentRequirements `json:"specTokens"`
-}
-
-func generateSpecificationTestCases(log *logrus.Entry, item discovery.ModelDiscoveryItem, nameGenerator names.Generator, ctx *model.Context, headlessTokenAcquisition bool, genConfig GeneratorConfig) (SpecificationTestCases, map[string]string) {
-	testcases, originalEndpoints := GetImplementedTestCases(&item, nameGenerator, ctx, headlessTokenAcquisition, genConfig)
-
-	for _, tc := range testcases {
-		log.Debug(tc.String())
-	}
-	return SpecificationTestCases{Specification: item.APISpecification, TestCases: testcases}, originalEndpoints
 }
