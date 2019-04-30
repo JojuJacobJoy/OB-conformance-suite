@@ -48,7 +48,7 @@
       "name": "PostAccount Request",
       "input": {
         "method": "POST",
-        "endpoint": "/open-banking/$api-version/aisp/account-access-consents",
+        "endpoint": "/aisp/account-access-consents",
         "headers": {
           "content-type": "application/json",
           "accept": "application/json",

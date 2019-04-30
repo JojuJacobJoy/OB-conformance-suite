@@ -185,7 +185,16 @@ func (t *TestCase) ApplyContext(rulectx *Context) {
 
 	// "convention" puts baseurl as prefix to endpoint in testcase"
 	if !strings.HasPrefix(t.Input.Endpoint, baseURL) {
-		t.Input.Endpoint = baseURL + t.Input.Endpoint
+		//resSvr, err := rulectx.GetString("resource_server")
+		if err != nil {
+			t.AppMsg("error getting resource_server from ctx")
+		}
+		if strings.HasPrefix(baseURL, "http://") || strings.HasPrefix(baseURL, "https://") {
+			t.Input.Endpoint = baseURL + t.Input.Endpoint
+		} else {
+			t.Input.Endpoint = baseURL + t.Input.Endpoint
+		}
+
 	}
 }
 

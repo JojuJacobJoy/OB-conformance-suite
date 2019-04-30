@@ -3,7 +3,7 @@
     "name": "Post Account Consent",
     "input": {
       "method": "POST",
-      "endpoint": "/open-banking/v3.1/aisp/account-access-consents",
+      "endpoint": "/aisp/account-access-consents",
       "headers": {
         "content-type": "application/json",
         "accept": "application/json",
@@ -14,7 +14,7 @@
       "bodyData": "$permission_payload"
     },
     "context": {
-      "baseurl": "$resource_server"
+      "baseurl": "1"
     },
     "expect": {
       "status-code": 201,
@@ -37,7 +37,7 @@
     "name": "Get Account Consent",
     "input": {
       "method": "GET",
-      "endpoint": "/open-banking/v3.1/aisp/account-access-consents/$test_consent_id",
+      "endpoint": "/aisp/account-access-consents/$test_consent_id",
       "headers": {
         "content-type": "application/json",
         "accept": "application/json",
@@ -47,7 +47,7 @@
       }
     },
     "context": {
-      "baseurl": "$resource_server"
+      "baseurl": "2"
     },
     "expect": {
       "status-code": 200,
@@ -62,7 +62,7 @@
     "name": "Delete Account Request",
     "input": {
       "method": "DELETE",
-      "endpoint": "/open-banking/v3.1/aisp/account-access-consents/$test_consent_id",
+      "endpoint": "/aisp/account-access-consents/$test_consent_id",
       "headers": {
         "content-type": "application/json",
         "accept": "*/*",
@@ -72,7 +72,7 @@
       }
     },
     "context": {
-      "baseurl": "$resource_server"
+      "baseurl": "3"
     },
     "expect": {
       "status-code": 204

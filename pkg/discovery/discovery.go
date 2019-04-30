@@ -24,7 +24,7 @@ type ModelDiscovery struct {
 type ModelDiscoveryItem struct {
 	APISpecification       ModelAPISpecification `json:"apiSpecification,omitempty" validate:"required"`
 	OpenidConfigurationURI string                `json:"openidConfigurationUri,omitempty" validate:"required,url"`
-	ResourceBaseURI        string                `json:"resourceBaseUri,omitempty" validate:"required,url"`
+	ResourceBaseURI        string                `json:"resourceBaseUri,omitempty" validate:"required"`
 	ResourceIds            ResourceIds           `json:"resourceIds,omitempty" validate:"-"`
 	Endpoints              []ModelEndpoint       `json:"endpoints,omitempty" validate:"required,gt=0,dive"`
 }
@@ -47,6 +47,7 @@ type ModelEndpoint struct {
 	Method                string                       `json:"method" validate:"required"`
 	Path                  string                       `json:"path" validate:"required,uri"`
 	ConditionalProperties []ModelConditionalProperties `json:"conditionalProperties,omitempty" validate:"dive"`
+	BaseURI string `json:"baseURI"`
 }
 
 // ModelConditionalProperties - Conditional schema properties implemented by implementer.

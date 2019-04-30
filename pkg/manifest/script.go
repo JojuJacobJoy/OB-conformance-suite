@@ -290,6 +290,7 @@ func getAccountConsent(refs *References, vx string) []string {
 func buildInputSection(s Script, i *model.Input) {
 	i.Method = strings.ToUpper(s.Method)
 	i.Endpoint = s.URI
+	//i.BaseURI = ?? (CH)
 	for k, v := range s.Headers {
 		i.Headers[k] = v
 	}

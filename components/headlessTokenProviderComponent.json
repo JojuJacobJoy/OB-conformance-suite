@@ -51,7 +51,7 @@
         "name": "PostAccount Request",
         "input": {
           "method": "POST",
-          "endpoint": "/open-banking/v3.1/aisp/account-access-consents",
+          "endpoint": "/aisp/account-access-consents",
           "headers": {
             "content-type": "application/json",
             "accept": "*/*",
@@ -62,7 +62,7 @@
           "bodyData": "$permission_payload"
         },
         "context": {
-          "baseurl": "$resource_server"
+          "baseurl": "4"
         },
         "expect": {
           "status-code": 201,

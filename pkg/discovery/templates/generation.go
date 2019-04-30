@@ -64,6 +64,7 @@ func addEndpoints(item *discovery.ModelDiscoveryItem, doc *loads.Document) {
 				ep := discovery.ModelEndpoint{
 					Method: meth,
 					Path:   path,
+					BaseURI: "foobarrrrr",
 				}
 				item.Endpoints = append(item.Endpoints, ep)
 			}

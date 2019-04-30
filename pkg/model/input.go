@@ -6,6 +6,8 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"github.com/tdewolff/minify"
+	minjson "github.com/tdewolff/minify/json"
 	"io"
 	"net/url"
 	"regexp"
@@ -14,8 +16,6 @@ import (
 
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/authentication"
 	"github.com/pkg/errors"
-	"github.com/tdewolff/minify/v2"
-	minjson "github.com/tdewolff/minify/v2/json"
 
 	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
@@ -34,6 +34,7 @@ import (
 type Input struct {
 	Method         string            `json:"method,omitempty"`      // http Method that this test case uses
 	Endpoint       string            `json:"endpoint,omitempty"`    // resource endpoint where the http object needs to be sent to get a response
+	BaseURI string `json:"base_uri"`
 	Headers        map[string]string `json:"headers,omitempty"`     // Allows for provision of specific http headers
 	FormData       map[string]string `json:"formData,omitempty"`    // Allow for provision of http form data
 	RequestBody    string            `json:"bodyData,omitempty"`    // Optional request body raw data
