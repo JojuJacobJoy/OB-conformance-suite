@@ -237,6 +237,60 @@
         },
         "Risk": {}
       }
+    },
+    "minimalOBCallbackUrl": {
+      "body": {
+        "Data": {
+          "Url": "",
+          "Version": ""
+        }
+      }
+    },
+    "OBCallbackUrlResponse1": {
+      "body": {
+        "Data": {
+          "Data": {
+            "CallbackUrlId": "",
+            "Url": "",
+            "Version": ""
+          },
+          "Links": {
+            "Self": "",
+            "First": "",
+            "Prev": "",
+            "Next": "",
+            "Last": "",
+          },
+          "Meta": {
+            "TotalPages": 1,
+            "FirstAvailableDateTime": "",
+            "LastAvailableDateTime": ""
+          }
+        }
+      }
+    },
+    "OBCallbackUrlsResponse1": {
+      "body": {
+        "Data": [
+          {
+            "CallbackUrlId": "",
+            "Url": "",
+            "Version": "",
+          }
+        ],
+        "Links": {
+          "Self": "",
+          "First": "",
+          "Prev": "",
+          "Next": "",
+          "Last": "",
+        },
+        "Meta": {
+          "TotalPages": 1,
+          "FirstAvailableDateTime": "",
+          "LastAvailableDateTime": ""
+        }
+      }
     }
   }
 }

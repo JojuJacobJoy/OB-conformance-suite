@@ -1,3 +1,117 @@
 {
-	"scripts": []
+	"scripts": [
+    {
+      "description": "TPP can successfully register Callback URL with ASPSP",
+      "id": "OB-301-NOT-100000",
+      "refURI": "https://openbanking.atlassian.net/wiki/spaces/DZ/pages/937951397/Event+Notification+API+Specification+-+v3.1#EventNotificationAPISpecification-v3.1-POST/callback-urls",
+      "detail": "TPP Callback URL successfully registered with ASPSP and responds with unique CallbackUrlId",
+      "parameters": {
+        "tokenRequestScope": "accounts,payments,fundsconfirmations",
+        "consentId": "****** Need to get this from another test, which performs PSU Consent?",
+        "postData": "$minimalOBCallbackUrl"
+      },
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      "body": "$minimalOBCallbackUrl",
+      "uri": "/callback-urls",
+      "uriImplementation": "optional",
+      "resource": "callback-url",
+      "asserts": [
+        "OB3GLOAssertOn201"
+      ],
+      "method": "post",
+      "schemaCheck": false
+    },
+    {
+      "description": "ASPSP rejects requests where Callback URL is already registered with ASPSP",
+      "id": "OB-301-NOT-100000",
+      "refURI": "https://openbanking.atlassian.net/wiki/spaces/DZ/pages/937951397/Event+Notification+API+Specification+-+v3.1#EventNotificationAPISpecification-v3.1-POST/callback-urls",
+      "detail": "ASPSP rejects requests where Callback URL is already registered with ASPSP",
+      "parameters": {
+        "tokenRequestScope": "accounts,payments,fundsconfirmations",
+        "consentId": "",
+        "postData": "$minimalOBCallbackUrl"
+      },
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      "body": "$minimalOBCallbackUrl",
+      "uri": "/callback-urls",
+      "uriImplementation": "optional",
+      "resource": "callback-url",
+      "asserts": [
+        "OB3GLOAssertOn409"
+      ],
+      "method": "post",
+      "schemaCheck": false
+    },
+    {
+      "description": "******************** GET /callback-urls ********************",
+      "id": "OB-301-NOT-100000",
+      "refURI": "https://openbanking.atlassian.net/wiki/spaces/DZ/pages/937951397/Event+Notification+API+Specification+-+v3.1#EventNotificationAPISpecification-v3.1-GET/callback-urls",
+      "detail": "******************** TODO: this endpoint needs clarification ********************",
+      "parameters": {
+        "tokenRequestScope": "accounts,payments,fundsconfirmations",
+        "consentId": "",
+        "postData": ""
+      },
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      "uri": "/callback-urls",
+      "uriImplementation": "optional",
+      "resource": "callback-url",
+      "asserts": [
+
+      ],
+      "method": "get",
+      "schemaCheck": false
+    },
+    {
+      "description": "ASPSP allows TPP to update a callback-url resource, by altering the URL the the ASPSP sends notifications to",
+      "id": "OB-301-NOT-100000",
+      "refURI": "https://openbanking.atlassian.net/wiki/spaces/DZ/pages/937951397/Event+Notification+API+Specification+-+v3.1#EventNotificationAPISpecification-v3.1-PUT/callback-urls/{CallbackUrlId}",
+      "detail": "",
+      "parameters": {
+        "tokenRequestScope": "accounts,payments,fundsconfirmations",
+        "consentId": "",
+        "putData": "$minimalOBCallbackUrl"
+      },
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      "body": "$minimalOBCallbackUrl",
+      "uri": "/callback-urls/{CallbackUrlId}",
+      "uriImplementation": "optional",
+      "resource": "callback-url",
+      "asserts": [
+        "OB3GLOAssertOn200"
+      ],
+      "method": "put",
+      "schemaCheck": false
+    },
+    {
+      "description": "ASPSP deletes callback-url resources when requested by TPP.",
+      "id": "OB-301-NOT-100000",
+      "refURI": "https://openbanking.atlassian.net/wiki/spaces/DZ/pages/937951397/Event+Notification+API+Specification+-+v3.1#EventNotificationAPISpecification-v3.1-DELETE/callback-urls/{CallbackUrlId}",
+      "detail": "",
+      "parameters": {
+        "tokenRequestScope": "accounts,payments,fundsconfirmations",
+        "consentId": "",
+        "callbackUrlId": "********************"
+      },
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      "uri": "/callback-urls/{CallbackUrlId}",
+      "uriImplementation": "optional",
+      "resource": "",
+      "asserts": [
+        "OB3GLOAssertOn204"
+      ],
+      "method": "delete",
+      "schemaCheck": false
+    }
+  ]
 }
