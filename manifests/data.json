@@ -259,7 +259,7 @@
             "First": "",
             "Prev": "",
             "Next": "",
-            "Last": "",
+            "Last": ""
           },
           "Meta": {
             "TotalPages": 1,
@@ -275,7 +275,7 @@
           {
             "CallbackUrlId": "",
             "Url": "",
-            "Version": "",
+            "Version": ""
           }
         ],
         "Links": {
@@ -283,7 +283,7 @@
           "First": "",
           "Prev": "",
           "Next": "",
-          "Last": "",
+          "Last": ""
         },
         "Meta": {
           "TotalPages": 1,
