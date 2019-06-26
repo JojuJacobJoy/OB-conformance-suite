@@ -407,15 +407,15 @@
       <br>
       <b-card bg-variant="light">
         <b-form-group
-          id="apply_waiver_w007_group"
-          label-for="apply_waiver_w007"
+          id="apply_w007_group"
+          label-for="apply_w007"
           label="Certification"
           value="true"
           unchecked-value="false">
           <b-form-checkbox
-            id="apply_waiver_w007"
-            v-model="apply_waiver_w007">
-            Apply waiver W007 (Remove b64 claims)
+            id="apply_w007"
+            v-model="apply_w007">
+            Apply W007 (Remove b64 claims)
           </b-form-checkbox>
         </b-form-group>
       </b-card>
@@ -692,12 +692,12 @@ export default {
         ];
       },
     },
-    apply_waiver_w007: {
+    apply_w007: {
       get() {
-        return this.$store.state.config.configuration.apply_waiver_w007;
+        return this.$store.state.config.configuration.apply_w007;
       },
       set(value) {
-        this.$store.commit('config/SET_APPLY_WAIVER_W007', value);
+        this.$store.commit('config/SET_APPLY_W007', value);
       },
     },
   },
