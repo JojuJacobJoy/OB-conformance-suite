@@ -125,6 +125,7 @@ export default {
         'creditor_account',
         'instructed_amount',
         'currency_of_transfer',
+        'apply_waiver_w007',
       ];
       const newConfig = _.pick(merged, validKeys);
       commit(types.SET_CONFIGURATION, newConfig);

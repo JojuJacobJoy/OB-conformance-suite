@@ -70,6 +70,7 @@ type GlobalConfiguration struct {
 	UseNonOBDirectory             bool                    `json:"use_non_ob_directory"`
 	SigningKid                    string                  `json:"signing_kid,omitempty"`
 	SignatureTrustAnchor          string                  `json:"signature_trust_anchor,omitempty"`
+	ApplyWaiverW007               bool                    `json:"apply_waiver_w007,omitempty"`
 }
 
 // Validate - used by https://github.com/go-ozzo/ozzo-validation to validate struct.
@@ -158,6 +159,7 @@ func MakeJourneyConfig(config *GlobalConfiguration) (JourneyConfig, error) {
 		useNonOBDirectory:             config.UseNonOBDirectory,
 		signingKid:                    config.SigningKid,
 		signatureTrustAnchor:          config.SignatureTrustAnchor,
+		applyWaiverW007:               config.ApplyWaiverW007,
 	}, nil
 }
 

@@ -417,6 +417,7 @@ type JourneyConfig struct {
 	useNonOBDirectory             bool
 	signingKid                    string
 	signatureTrustAnchor          string
+	applyWaiverW007               bool
 }
 
 func (wj *journey) SetConfig(config JourneyConfig) error {

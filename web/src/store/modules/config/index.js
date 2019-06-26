@@ -47,6 +47,7 @@ export const mutationTypes = {
   SET_INSTRUCTED_AMOUNT_VALUE: 'SET_INSTRUCTED_AMOUNT_VALUE',
   SET_INSTRUCTED_AMOUNT_CURRENCY: 'SET_INSTRUCTED_AMOUNT_CURRENCY',
   SET_CURRENCY_OF_TRANSFER: 'SET_CURRENCY_OF_TRANSFER',
+  SET_APPLY_WAIVER_W007: 'SET_APPLY_WAIVER_W007',
 };
 
 export const mutations = {
@@ -182,6 +183,9 @@ export const mutations = {
   [mutationTypes.SET_CURRENCY_OF_TRANSFER](state, value) {
     state.configuration.currency_of_transfer = value;
   },
+  [mutationTypes.SET_APPLY_WAIVER_W007](state, value) {
+    state.configuration.apply_waiver_w007 = value;
+  },
 };
 
 // Converts problem key to discovery model JSON path.
@@ -280,6 +284,7 @@ export const state = {
       currency: 'GBP',
     },
     currency_of_transfer: 'USD',
+    apply_waiver_w007: true,
   },
 
   wizard: {
