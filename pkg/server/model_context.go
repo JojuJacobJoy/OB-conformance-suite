@@ -3,6 +3,7 @@ package server
 import (
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/authentication"
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/model"
+	"strconv"
 )
 
 const (
@@ -35,6 +36,7 @@ const (
 	CtxNonOBDirectory               = "nonOBDirectory"
 	CtxSigningKid                   = "signingKid"
 	CtxSignatureTrustAnchor         = "signatureTrustAnchor"
+	CtxApplyWaiverW007              = "applyWaiverW007"
 )
 
 func PutParametersToJourneyContext(config JourneyConfig, context model.Context) error {
@@ -66,6 +68,7 @@ func PutParametersToJourneyContext(config JourneyConfig, context model.Context) 
 	context.Put(CtxNonOBDirectory, config.useNonOBDirectory)
 	context.PutString(CtxSigningKid, config.signingKid)
 	context.PutString(CtxSignatureTrustAnchor, config.signatureTrustAnchor)
+	context.PutString(CtxApplyWaiverW007, strconv.FormatBool(config.applyWaiverW007))
 
 	basicauth, err := authentication.CalculateClientSecretBasicToken(config.clientID, config.clientSecret)
 	if err != nil {

@@ -34,4 +34,5 @@ type ExportResults struct {
 	Results        map[results.ResultKey][]results.TestCase `json:"results"`
 	Tokens         []events.AcquiredAccessToken             `json:"tokens"`
 	DiscoveryModel discovery.Model                          `json:"discovery_model"`
+	W007Applied    bool                                     `json:"w007Applied"`
 }
