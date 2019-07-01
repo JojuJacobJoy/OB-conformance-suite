@@ -30,7 +30,7 @@ type Report struct {
 	SignatureChain   *[]SignatureChain  `json:"signatureChain,omitempty"` // When Add digital signature is set this contains the signature chain.
 	Discovery        discovery.Model    `json:"-"`                        // Original used discovery model
 	APISpecification []APISpecification `json:"apiSpecification"`         // API and version tested, along with test cases
-	W007Applied      bool               `json:"w007Applied"`              // Indicated if waiver W007 was applied
+	W007Applied      bool               `json:"w007Applied"`              // Indicated if W007 was applied
 }
 
 type APISpecification struct {

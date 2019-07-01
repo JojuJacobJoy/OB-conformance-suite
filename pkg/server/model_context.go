@@ -36,7 +36,7 @@ const (
 	CtxNonOBDirectory               = "nonOBDirectory"
 	CtxSigningKid                   = "signingKid"
 	CtxSignatureTrustAnchor         = "signatureTrustAnchor"
-	CtxApplyWaiverW007              = "applyWaiverW007"
+	CtxApplyW007                    = "applyW007"
 )
 
 func PutParametersToJourneyContext(config JourneyConfig, context model.Context) error {
@@ -68,7 +68,7 @@ func PutParametersToJourneyContext(config JourneyConfig, context model.Context) 
 	context.Put(CtxNonOBDirectory, config.useNonOBDirectory)
 	context.PutString(CtxSigningKid, config.signingKid)
 	context.PutString(CtxSignatureTrustAnchor, config.signatureTrustAnchor)
-	context.PutString(CtxApplyWaiverW007, strconv.FormatBool(config.applyWaiverW007))
+	context.PutString(CtxApplyW007, strconv.FormatBool(config.applyW007))
 
 	basicauth, err := authentication.CalculateClientSecretBasicToken(config.clientID, config.clientSecret)
 	if err != nil {
