@@ -39,7 +39,7 @@ type Input struct {
 	IdempotencyKey bool              `json:"idempotency,omitempty"` // specifices the inclusion of x-idempotency-key in the request
 }
 
-var disableJws bool // Allows disabling of jws for ozone - effectively a development flag
+var disableJws = true // jws disabled by default in line with waiver 007
 
 // CreateRequest is the main Input work horse which examines the various Input parameters and generates an
 // http.Request object which represents the request
@@ -582,7 +582,7 @@ func makeMiliSecondStringTimestamp() string {
 	return milliString
 }
 
-// DisableJWS - disable jws-signature for ozone
-func DisableJWS() {
-	disableJws = true
+// EnableJWS - disable jws-signature for ozone
+func EnableJWS() {
+	disableJws = false
 }
