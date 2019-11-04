@@ -1,7 +1,9 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"strings"
 
@@ -38,9 +40,23 @@ $ go run pkg/discovery/scripts/cmd/fcs_discovery_scripts/main.go --swagger_path 
 				return err
 			}
 
+			// logger.WithFields(logrus.Fields{
+			// 	"nonManadatoryFields": fmt.Sprintf("%#v", nonManadatoryFields),
+			// }).Infof("Parsing finished ...")
+			data, err := json.MarshalIndent(nonManadatoryFields, "", "  ")
+			if err != nil {
+				return err
+			}
+
+			err = ioutil.WriteFile(outputFile, data, 0644)
+			if err != nil {
+				return err
+			}
+
 			logger.WithFields(logrus.Fields{
-				"nonManadatoryFields": fmt.Sprintf("%+v", nonManadatoryFields),
-			}).Infof("Parsing finished ...")
+				"output_file": outputFile,
+			}).Infof("Finished writing to file ...")
+
 			return nil
 		},
 	}
