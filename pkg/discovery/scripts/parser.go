@@ -1,12 +1,12 @@
 package scripts
 
 import (
-	"fmt"
 	"sort"
 	"strings"
 
 	"github.com/go-openapi/loads"
 	"github.com/go-openapi/spec"
+	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 )
 
@@ -17,23 +17,23 @@ type NonManadatoryFields struct {
 
 // ParseSchema -
 func ParseSchema(swaggerPath string, logger *logrus.Logger) (*NonManadatoryFields, error) {
-	// doc, err := loads.Spec("docs/generator/v2.0.0/account-info-swagger.json")
 	doc, err := loads.Spec(swaggerPath)
 	if err != nil {
 		logger.WithFields(logrus.Fields{
 			"err":         err,
 			"swaggerPath": swaggerPath,
-		}).Fatal("ParseSchema: loads.Spec(swaggerPath)")
-		return nil, err
+		}).Error("ParseSchema: loads.Spec(swaggerPath)")
+		return nil, errors.Wrapf(err, "ParseSchema: loads.Spec(path), swaggerPath=%+v", swaggerPath)
 	}
 
 	expanded, err := doc.Expanded(nil)
 	if err != nil {
 		logger.WithFields(logrus.Fields{
-			"err": err,
-			"doc": doc,
-		}).Fatal("ParseSchema: doc.Expanded(nil)")
-		return nil, err
+			"err":         err,
+			"doc":         doc,
+			"swaggerPath": swaggerPath,
+		}).Error("ParseSchema: doc.Expanded(nil)")
+		return nil, errors.Wrapf(err, "ParseSchema: doc.Expanded(nil), swaggerPath=%+v", swaggerPath)
 	}
 
 	nonManadatoryFields := &NonManadatoryFields{
@@ -59,7 +59,7 @@ func ParseSchema(swaggerPath string, logger *logrus.Logger) (*NonManadatoryField
 			PrintResponses(props.Delete, logger)
 		}
 		if props.Get != nil {
-			fmt.Printf("Path=%s Get\n", path)
+			logger.Infof("Path=%s Get\n", path)
 			// data, err := json.Marshal(props.Get)
 			// if err != nil {
 			// 	log.Fatal(err)
@@ -126,7 +126,7 @@ func PrintResponses(operation *spec.Operation, logger *logrus.Logger) {
 		for _, optionalProperty := range optionalProperties {
 			logger.Infof("\t%#v\n", optionalProperty)
 		}
-		fmt.Println()
+		logger.Infof("\n")
 	}
 }
 

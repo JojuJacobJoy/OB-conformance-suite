@@ -19,7 +19,7 @@ var (
 		Short: "Functional Conformance Suite Server -  Discovery Scripts",
 		Long: `Generates all the non-manadatory fields for each endpoint, e.g.,
 
-$ go run pkg/discovery/scripts/cmd/fcs_discovery_scripts/main.go --swagger_path 'pkg/schema/spec/v3.1.2/account-info-swagger.flattened.json'
+$ go run pkg/discovery/scripts/cmd/fcs_discovery_scripts/main.go --swagger_path 'pkg/schema/spec/v3.1.2/account-info-swagger.flattened.json' --output_file 'pkg/discovery/scripts/generated/v3.1.2_account-info-discovery.json'
 		`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			logger := logger.WithFields(logrus.Fields{
@@ -27,8 +27,10 @@ $ go run pkg/discovery/scripts/cmd/fcs_discovery_scripts/main.go --swagger_path 
 			})
 
 			swaggerPath := viper.GetString("swagger_path")
+			outputFile := viper.GetString("output_file")
 			logger.WithFields(logrus.Fields{
 				"swagger_path": swaggerPath,
+				"output_file":  outputFile,
 			}).Infof("Parsing started ...")
 
 			nonManadatoryFields, err := scripts.ParseSchema(swaggerPath, logger.Logger)
@@ -46,8 +48,7 @@ $ go run pkg/discovery/scripts/cmd/fcs_discovery_scripts/main.go --swagger_path 
 
 func main() {
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Fprint(os.Stderr, err)
-		fmt.Fprint(os.Stderr, "\n")
+		fmt.Fprintf(os.Stderr, "%+v\n", err)
 		os.Exit(1)
 	}
 }
@@ -57,10 +58,10 @@ func init() {
 
 	persistentFlags.String("log_level", "INFO", "Log level")
 	persistentFlags.StringP("swagger_path", "s", "", "Swagger file path, e.g., 'pkg/schema/spec/v3.1.2/account-info-swagger.flattened.json'")
+	persistentFlags.StringP("output_file", "o", "", "Swagger file path, e.g., 'pkg/discovery/scripts/generated/v3.1.2_account-info-discovery.json'")
 
 	if err := viper.BindPFlags(rootCmd.PersistentFlags()); err != nil {
-		fmt.Fprint(os.Stderr, err)
-		fmt.Fprint(os.Stderr, "\n")
+		fmt.Fprintf(os.Stderr, "%+v\n", err)
 		os.Exit(1)
 	}
 
@@ -69,6 +70,7 @@ func init() {
 	viper.AutomaticEnv()
 
 	cobra.MarkFlagRequired(persistentFlags, "swagger_path")
+	cobra.MarkFlagRequired(persistentFlags, "output_file")
 	cobra.OnInitialize(onInitialize)
 }
 
@@ -83,8 +85,7 @@ func onInitialize() {
 	level, err := logrus.ParseLevel(viper.GetString("log_level"))
 	if err != nil {
 		printCommandFlags()
-		fmt.Fprint(os.Stderr, err)
-		fmt.Fprint(os.Stderr, "\n")
+		fmt.Fprintf(os.Stderr, "%+v\n", err)
 		os.Exit(1)
 	}
 	logger.SetLevel(level)
@@ -97,6 +98,7 @@ func printCommandFlags() {
 
 	logger.WithFields(logrus.Fields{
 		"swagger_path": viper.GetString("swagger_path"),
+		"output_file":  viper.GetString("output_file"),
 		"log_level":    viper.GetString("log_level"),
 	}).Info("configuration flags")
 }

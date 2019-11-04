@@ -2,8 +2,10 @@
 
 ## Run
 
+**NB**: Subject to change.
+
 ```sh
-$ go run pkg/discovery/scripts/cmd/fcs_discovery_scripts/main.go --swagger_path 'pkg/schema/spec/v3.1.2/account-info-swagger.flattened.json'
+$ go run pkg/discovery/scripts/cmd/fcs_discovery_scripts/main.go --swagger_path 'pkg/schema/spec/v3.1.2/account-info-swagger.flattened.json' --output_file 'pkg/discovery/scripts/generated/v3.1.2_account-info-discovery.json'
 INFO configuration flags                           log_level=INFO swagger_path=pkg/schema/spec/v3.1.2/account-info-swagger.flattened.json
 INFO Parsing started ...                           app=fcs_discovery_scripts swagger_path=pkg/schema/spec/v3.1.2/account-info-swagger.flattened.json
 Path=/accounts/{AccountId}/standing-orders Get

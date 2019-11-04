@@ -111,3 +111,10 @@ test_coverage: ## run the go tests then open up coverage report.
 		./...
 	go tool cover \
 		-html=$(shell pwd)/coverage.out
+
+##@ (Code) Generation:
+
+.PHONY: fcs_discovery_scripts
+fcs_discovery_scripts: ## run the tool to generate all the possible non-mandatory endpoints for a specification, see `pkg/discovery/scripts/SCRIPTS.md` for more information.
+	go run pkg/discovery/scripts/cmd/fcs_discovery_scripts/main.go --swagger_path 'pkg/schema/spec/v3.1.2/account-info-swagger.flattened.json' --output_file 'pkg/discovery/scripts/generated/v3.1.2_account-info-discovery.json'
+

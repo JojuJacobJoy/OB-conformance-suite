@@ -1,0 +1,489 @@
+[2019-11-01T15:50:07Z] DEBUG Dump Properties===============
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-auth1-ui.o3bank.co.uk/PsuDummyURL -1
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts 200
+[2019-11-01T15:50:07Z] DEBUG Data
+[2019-11-01T15:50:07Z] DEBUG Data.Account
+[2019-11-01T15:50:07Z]  INFO sending event app=server handler=listenResultWebSocket result.Id=OB-301-TRA-105700 websocket=0xc003d08160 wsEvent.Type=ResultType_TestCaseResult
+[2019-11-01T15:50:07Z] DEBUG Data.Account.Account
+[2019-11-01T15:50:07Z] DEBUG Data.Account.Account.Identification
+[2019-11-01T15:50:07Z] DEBUG Data.Account.Account.Identification.Identification
+[2019-11-01T15:50:07Z] DEBUG Data.Account.Account.Identification.SchemeName
+[2019-11-01T15:50:07Z] DEBUG Data.Account.Account.Identification.SecondaryIdentification
+[2019-11-01T15:50:07Z] DEBUG Data.Account.Account.Name
+[2019-11-01T15:50:07Z] DEBUG Data.Account.Account.SchemeName
+[2019-11-01T15:50:07Z] DEBUG Data.Account.Account.SecondaryIdentification
+[2019-11-01T15:50:07Z] DEBUG Data.Account.AccountId
+[2019-11-01T15:50:07Z] DEBUG Data.Account.AccountSubType
+[2019-11-01T15:50:07Z] DEBUG Data.Account.AccountType
+[2019-11-01T15:50:07Z] DEBUG Data.Account.Currency
+[2019-11-01T15:50:07Z] DEBUG Data.Account.Nickname
+[2019-11-01T15:50:07Z] DEBUG Data.Account.Servicer
+[2019-11-01T15:50:07Z] DEBUG Data.Account.Servicer.Identification
+[2019-11-01T15:50:07Z] DEBUG Data.Account.Servicer.SchemeName
+[2019-11-01T15:50:07Z] DEBUG Links
+[2019-11-01T15:50:07Z] DEBUG Links.Self
+[2019-11-01T15:50:07Z] DEBUG Meta
+[2019-11-01T15:50:07Z] DEBUG Meta.TotalPages
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts 401
+[2019-11-01T15:50:07Z] DEBUG Code
+[2019-11-01T15:50:07Z] DEBUG Errors
+[2019-11-01T15:50:07Z] DEBUG Message
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/700004000000000000000005 200
+[2019-11-01T15:50:07Z] DEBUG Data
+[2019-11-01T15:50:07Z] DEBUG Data.Account
+[2019-11-01T15:50:07Z] DEBUG Data.Account.Account
+[2019-11-01T15:50:07Z] DEBUG Data.Account.Account.Identification.Identification
+[2019-11-01T15:50:07Z] DEBUG Data.Account.Account.Identification.Name
+[2019-11-01T15:50:07Z] DEBUG Data.Account.Account.Identification.SchemeName
+[2019-11-01T15:50:07Z] DEBUG Data.Account.AccountId
+[2019-11-01T15:50:07Z] DEBUG Data.Account.AccountSubType
+[2019-11-01T15:50:07Z] DEBUG Data.Account.AccountType
+[2019-11-01T15:50:07Z] DEBUG Data.Account.Currency
+[2019-11-01T15:50:07Z] DEBUG Data.Account.Nickname
+[2019-11-01T15:50:07Z] DEBUG Links
+[2019-11-01T15:50:07Z] DEBUG Links.Self
+[2019-11-01T15:50:07Z] DEBUG Meta
+[2019-11-01T15:50:07Z] DEBUG Meta.TotalPages
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/700004000000000000000005 401
+[2019-11-01T15:50:07Z] DEBUG Code
+[2019-11-01T15:50:07Z] DEBUG Errors
+[2019-11-01T15:50:07Z] DEBUG Message
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/700004000000000000000005/balances 200
+[2019-11-01T15:50:07Z] DEBUG Data
+[2019-11-01T15:50:07Z] DEBUG Data.Balance
+[2019-11-01T15:50:07Z] DEBUG Data.Balance.AccountId
+[2019-11-01T15:50:07Z] DEBUG Data.Balance.Amount
+[2019-11-01T15:50:07Z] DEBUG Data.Balance.Amount.Amount
+[2019-11-01T15:50:07Z] DEBUG Data.Balance.Amount.Currency
+[2019-11-01T15:50:07Z] DEBUG Data.Balance.CreditDebitIndicator
+[2019-11-01T15:50:07Z] DEBUG Data.Balance.DateTime
+[2019-11-01T15:50:07Z] DEBUG Data.Balance.Type
+[2019-11-01T15:50:07Z] DEBUG Links
+[2019-11-01T15:50:07Z] DEBUG Links.Self
+[2019-11-01T15:50:07Z] DEBUG Meta
+[2019-11-01T15:50:07Z] DEBUG Meta.TotalPages
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/700004000000000000000005/balances 403
+[2019-11-01T15:50:07Z] DEBUG Code
+[2019-11-01T15:50:07Z] DEBUG Errors
+[2019-11-01T15:50:07Z] DEBUG Message
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/700004000000000000000005/balances/foobar 404
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/700004000000000000000005/beneficiaries 200
+[2019-11-01T15:50:07Z] DEBUG Data
+[2019-11-01T15:50:07Z] DEBUG Data.Beneficiary
+[2019-11-01T15:50:07Z] DEBUG Links
+[2019-11-01T15:50:07Z] DEBUG Links.Self
+[2019-11-01T15:50:07Z] DEBUG Meta
+[2019-11-01T15:50:07Z] DEBUG Meta.TotalPages
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/700004000000000000000005/beneficiaries 401
+[2019-11-01T15:50:07Z] DEBUG Code
+[2019-11-01T15:50:07Z] DEBUG Errors
+[2019-11-01T15:50:07Z] DEBUG Message
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/700004000000000000000005/beneficiaries/foobar 404
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/700004000000000000000005/direct-debits 200
+[2019-11-01T15:50:07Z] DEBUG Data
+[2019-11-01T15:50:07Z] DEBUG Data.DirectDebit
+[2019-11-01T15:50:07Z] DEBUG Links
+[2019-11-01T15:50:07Z] DEBUG Links.Self
+[2019-11-01T15:50:07Z] DEBUG Meta
+[2019-11-01T15:50:07Z] DEBUG Meta.TotalPages
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/700004000000000000000005/direct-debits/foobar 404
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/700004000000000000000005/foobar 404
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/700004000000000000000005/offers 200
+[2019-11-01T15:50:07Z] DEBUG Data
+[2019-11-01T15:50:07Z] DEBUG Data.Offer
+[2019-11-01T15:50:07Z] DEBUG Links
+[2019-11-01T15:50:07Z] DEBUG Links.Self
+[2019-11-01T15:50:07Z] DEBUG Meta
+[2019-11-01T15:50:07Z] DEBUG Meta.TotalPages
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/700004000000000000000005/offers/foobar 404
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/700004000000000000000005/party 200
+[2019-11-01T15:50:07Z] DEBUG Data
+[2019-11-01T15:50:07Z] DEBUG Data.Party
+[2019-11-01T15:50:07Z] DEBUG Data.Party.Address
+[2019-11-01T15:50:07Z] DEBUG Data.Party.Address.EndDateTime.AddressLine
+[2019-11-01T15:50:07Z] DEBUG Data.Party.Address.EndDateTime.AddressType
+[2019-11-01T15:50:07Z] DEBUG Data.Party.Address.EndDateTime.BuildingNumber
+[2019-11-01T15:50:07Z] DEBUG Data.Party.Address.EndDateTime.Country
+[2019-11-01T15:50:07Z] DEBUG Data.Party.Address.EndDateTime.CountrySubDivision
+[2019-11-01T15:50:07Z] DEBUG Data.Party.Address.EndDateTime.PostCode
+[2019-11-01T15:50:07Z] DEBUG Data.Party.Address.EndDateTime.StreetName
+[2019-11-01T15:50:07Z] DEBUG Data.Party.Address.EndDateTime.TownName
+[2019-11-01T15:50:07Z] DEBUG Data.Party.EmailAddress
+[2019-11-01T15:50:07Z] DEBUG Data.Party.Name
+[2019-11-01T15:50:07Z] DEBUG Data.Party.PartyId
+[2019-11-01T15:50:07Z] DEBUG Data.Party.PartyType
+[2019-11-01T15:50:07Z] DEBUG Data.Party.Phone
+[2019-11-01T15:50:07Z] DEBUG Links
+[2019-11-01T15:50:07Z] DEBUG Links.Self
+[2019-11-01T15:50:07Z] DEBUG Meta
+[2019-11-01T15:50:07Z] DEBUG Meta.TotalPages
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/700004000000000000000005/party/foobar 404
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/700004000000000000000005/product 404
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/700004000000000000000005/product/foobar 404
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/700004000000000000000005/scheduled-payments 200
+[2019-11-01T15:50:07Z] DEBUG Data
+[2019-11-01T15:50:07Z] DEBUG Data.ScheduledPayment
+[2019-11-01T15:50:07Z] DEBUG Links
+[2019-11-01T15:50:07Z] DEBUG Links.Self
+[2019-11-01T15:50:07Z] DEBUG Meta
+[2019-11-01T15:50:07Z] DEBUG Meta.TotalPages
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/700004000000000000000005/scheduled-payments/foobar 404
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/700004000000000000000005/standing-orders 200
+[2019-11-01T15:50:07Z] DEBUG Data
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder
+[2019-11-01T15:50:07Z] DEBUG Links
+[2019-11-01T15:50:07Z] DEBUG Links.Self
+[2019-11-01T15:50:07Z] DEBUG Meta
+[2019-11-01T15:50:07Z] DEBUG Meta.TotalPages
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/700004000000000000000005/standing-orders/foobar 404
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/700004000000000000000005/transactions 200
+[2019-11-01T15:50:07Z] DEBUG Data
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.AccountId
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.Amount
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.Amount.Amount
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.Amount.Currency
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.Balance
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.Balance.Amount
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.Balance.Amount.Amount
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.Balance.Amount.Currency
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.Balance.CreditDebitIndicator
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.Balance.Type
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.BookingDateTime
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.CreditDebitIndicator
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.ProprietaryBankTransactionCode
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.ProprietaryBankTransactionCode.Code
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.Status
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.TransactionId
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.TransactionInformation
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.TransactionReference
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.ValueDateTime
+[2019-11-01T15:50:07Z] DEBUG Links
+[2019-11-01T15:50:07Z] DEBUG Links.Self
+[2019-11-01T15:50:07Z] DEBUG Meta
+[2019-11-01T15:50:07Z] DEBUG Meta.FirstAvailableDateTime
+[2019-11-01T15:50:07Z] DEBUG Meta.LastAvailableDateTime
+[2019-11-01T15:50:07Z] DEBUG Meta.TotalPages
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/700004000000000000000005/transactions 401
+[2019-11-01T15:50:07Z] DEBUG Code
+[2019-11-01T15:50:07Z] DEBUG Errors
+[2019-11-01T15:50:07Z] DEBUG Message
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/foobar/balances 401
+[2019-11-01T15:50:07Z] DEBUG Code
+[2019-11-01T15:50:07Z] DEBUG Errors
+[2019-11-01T15:50:07Z] DEBUG Message
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/foobar/beneficiaries 401
+[2019-11-01T15:50:07Z] DEBUG Code
+[2019-11-01T15:50:07Z] DEBUG Errors
+[2019-11-01T15:50:07Z] DEBUG Message
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/foobar/direct-debits 401
+[2019-11-01T15:50:07Z] DEBUG Code
+[2019-11-01T15:50:07Z] DEBUG Errors
+[2019-11-01T15:50:07Z] DEBUG Message
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/foobar/offers 401
+[2019-11-01T15:50:07Z] DEBUG Code
+[2019-11-01T15:50:07Z] DEBUG Errors
+[2019-11-01T15:50:07Z] DEBUG Message
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/foobar/party 401
+[2019-11-01T15:50:07Z] DEBUG Code
+[2019-11-01T15:50:07Z] DEBUG Errors
+[2019-11-01T15:50:07Z] DEBUG Message
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/foobar/product 404
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/foobar/scheduled-payments 401
+[2019-11-01T15:50:07Z] DEBUG Code
+[2019-11-01T15:50:07Z] DEBUG Errors
+[2019-11-01T15:50:07Z] DEBUG Message
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/foobar/standing-orders 401
+[2019-11-01T15:50:07Z] DEBUG Code
+[2019-11-01T15:50:07Z] DEBUG Errors
+[2019-11-01T15:50:07Z] DEBUG Message
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/accounts/foobar/transactions 401
+[2019-11-01T15:50:07Z] DEBUG Code
+[2019-11-01T15:50:07Z] DEBUG Errors
+[2019-11-01T15:50:07Z] DEBUG Message
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/balances 200
+[2019-11-01T15:50:07Z] DEBUG Data
+[2019-11-01T15:50:07Z] DEBUG Data.Balance
+[2019-11-01T15:50:07Z] DEBUG Data.Balance.AccountId
+[2019-11-01T15:50:07Z] DEBUG Data.Balance.Amount
+[2019-11-01T15:50:07Z] DEBUG Data.Balance.Amount.Amount
+[2019-11-01T15:50:07Z] DEBUG Data.Balance.Amount.Currency
+[2019-11-01T15:50:07Z] DEBUG Data.Balance.CreditDebitIndicator
+[2019-11-01T15:50:07Z] DEBUG Data.Balance.DateTime
+[2019-11-01T15:50:07Z] DEBUG Data.Balance.Type
+[2019-11-01T15:50:07Z] DEBUG Links
+[2019-11-01T15:50:07Z] DEBUG Links.Self
+[2019-11-01T15:50:07Z] DEBUG Meta
+[2019-11-01T15:50:07Z] DEBUG Meta.TotalPages
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/balances 401
+[2019-11-01T15:50:07Z] DEBUG Code
+[2019-11-01T15:50:07Z] DEBUG Errors
+[2019-11-01T15:50:07Z] DEBUG Message
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/beneficiaries 200
+[2019-11-01T15:50:07Z] DEBUG Data
+[2019-11-01T15:50:07Z] DEBUG Data.Beneficiary
+[2019-11-01T15:50:07Z] DEBUG Links
+[2019-11-01T15:50:07Z] DEBUG Links.Self
+[2019-11-01T15:50:07Z] DEBUG Meta
+[2019-11-01T15:50:07Z] DEBUG Meta.TotalPages
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/beneficiaries 401
+[2019-11-01T15:50:07Z] DEBUG Code
+[2019-11-01T15:50:07Z] DEBUG Errors
+[2019-11-01T15:50:07Z] DEBUG Message
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/direct-debits 200
+[2019-11-01T15:50:07Z] DEBUG Data
+[2019-11-01T15:50:07Z] DEBUG Data.DirectDebit
+[2019-11-01T15:50:07Z] DEBUG Links
+[2019-11-01T15:50:07Z] DEBUG Links.Self
+[2019-11-01T15:50:07Z] DEBUG Meta
+[2019-11-01T15:50:07Z] DEBUG Meta.TotalPages
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/direct-debits 401
+[2019-11-01T15:50:07Z] DEBUG Code
+[2019-11-01T15:50:07Z] DEBUG Errors
+[2019-11-01T15:50:07Z] DEBUG Message
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/foobar 404
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/offers 200
+[2019-11-01T15:50:07Z] DEBUG Data
+[2019-11-01T15:50:07Z] DEBUG Data.Offer
+[2019-11-01T15:50:07Z] DEBUG Data.Offer.AccountId
+[2019-11-01T15:50:07Z] DEBUG Data.Offer.Amount
+[2019-11-01T15:50:07Z] DEBUG Data.Offer.Amount.Amount
+[2019-11-01T15:50:07Z] DEBUG Data.Offer.Amount.Currency
+[2019-11-01T15:50:07Z] DEBUG Data.Offer.EndDateTime
+[2019-11-01T15:50:07Z] DEBUG Data.Offer.Fee
+[2019-11-01T15:50:07Z] DEBUG Data.Offer.Fee.Amount
+[2019-11-01T15:50:07Z] DEBUG Data.Offer.Fee.Currency
+[2019-11-01T15:50:07Z] DEBUG Data.Offer.OfferId
+[2019-11-01T15:50:07Z] DEBUG Data.Offer.OfferType
+[2019-11-01T15:50:07Z] DEBUG Data.Offer.StartDateTime
+[2019-11-01T15:50:07Z] DEBUG Links
+[2019-11-01T15:50:07Z] DEBUG Links.Self
+[2019-11-01T15:50:07Z] DEBUG Meta
+[2019-11-01T15:50:07Z] DEBUG Meta.TotalPages
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/offers 401
+[2019-11-01T15:50:07Z] DEBUG Code
+[2019-11-01T15:50:07Z] DEBUG Errors
+[2019-11-01T15:50:07Z] DEBUG Message
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/party 200
+[2019-11-01T15:50:07Z] DEBUG Data
+[2019-11-01T15:50:07Z] DEBUG Data.Party
+[2019-11-01T15:50:07Z] DEBUG Data.Party.Address
+[2019-11-01T15:50:07Z] DEBUG Data.Party.Address.EndDateTime.AddressType
+[2019-11-01T15:50:07Z] DEBUG Data.Party.Address.EndDateTime.BuildingNumber
+[2019-11-01T15:50:07Z] DEBUG Data.Party.Address.EndDateTime.Country
+[2019-11-01T15:50:07Z] DEBUG Data.Party.Address.EndDateTime.CountrySubDivision
+[2019-11-01T15:50:07Z] DEBUG Data.Party.Address.EndDateTime.PostCode
+[2019-11-01T15:50:07Z] DEBUG Data.Party.Address.EndDateTime.StreetName
+[2019-11-01T15:50:07Z] DEBUG Data.Party.Address.EndDateTime.TownName
+[2019-11-01T15:50:07Z] DEBUG Data.Party.EmailAddress
+[2019-11-01T15:50:07Z] DEBUG Data.Party.Name
+[2019-11-01T15:50:07Z] DEBUG Data.Party.PartyId
+[2019-11-01T15:50:07Z] DEBUG Data.Party.PartyType
+[2019-11-01T15:50:07Z] DEBUG Data.Party.Phone
+[2019-11-01T15:50:07Z] DEBUG Links
+[2019-11-01T15:50:07Z] DEBUG Links.Self
+[2019-11-01T15:50:07Z] DEBUG Meta
+[2019-11-01T15:50:07Z] DEBUG Meta.TotalPages
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/party 401
+[2019-11-01T15:50:07Z] DEBUG Code
+[2019-11-01T15:50:07Z] DEBUG Errors
+[2019-11-01T15:50:07Z] DEBUG Message
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/products 200
+[2019-11-01T15:50:07Z] DEBUG Data
+[2019-11-01T15:50:07Z] DEBUG Data.Product
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.AccountId
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.MarketingStateId
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.OtherProductDetails
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.OtherProductDetails.Description
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.OtherProductDetails.Name
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.OtherProductDetails.OtherProductDetails
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.OtherProductDetails.OtherProductDetails.OtherFeesCharges
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.OtherProductDetails.OtherProductDetails.OtherFeesCharges.FeeChargeDetail
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.OtherProductDetails.OtherProductDetails.OtherFeesCharges.FeeChargeDetail.ApplicationFrequency
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.OtherProductDetails.OtherProductDetails.OtherFeesCharges.FeeChargeDetail.CalculationFrequency
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.OtherProductDetails.OtherProductDetails.OtherFeesCharges.FeeChargeDetail.FeeAmount
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.OtherProductDetails.OtherProductDetails.OtherFeesCharges.FeeChargeDetail.FeeCategory
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.OtherProductDetails.OtherProductDetails.OtherFeesCharges.FeeChargeDetail.FeeType
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.OtherProductDetails.OtherProductDetails.OtherFeesCharges.FeeChargeDetail.Notes
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.PCA
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.PCA.CreditInterest
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.PCA.CreditInterest.TierBandSet
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.PCA.CreditInterest.TierBandSet.CalculationMethod
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.PCA.CreditInterest.TierBandSet.Notes
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.PCA.CreditInterest.TierBandSet.TierBand
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.PCA.CreditInterest.TierBandSet.TierBand.AER
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.PCA.CreditInterest.TierBandSet.TierBand.ApplicationFrequency
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.PCA.CreditInterest.TierBandSet.TierBand.BankInterestRateType
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.PCA.CreditInterest.TierBandSet.TierBand.CalculationFrequency
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.PCA.CreditInterest.TierBandSet.TierBand.DepositInterestAppliedCoverage
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.PCA.CreditInterest.TierBandSet.TierBand.FixedVariableInterestRateType
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.PCA.CreditInterest.TierBandSet.TierBand.Identification
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.PCA.CreditInterest.TierBandSet.TierBand.TierValueMaximum
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.PCA.CreditInterest.TierBandSet.TierBand.TierValueMinimum
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.PCA.CreditInterest.TierBandSet.TierBandMethod
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.ProductId
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.ProductName
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.ProductType
+[2019-11-01T15:50:07Z] DEBUG Data.Product.Address.SecondaryProductId
+[2019-11-01T15:50:07Z] DEBUG Links
+[2019-11-01T15:50:07Z] DEBUG Links.Self
+[2019-11-01T15:50:07Z] DEBUG Meta
+[2019-11-01T15:50:07Z] DEBUG Meta.TotalPages
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/products 401
+[2019-11-01T15:50:07Z] DEBUG Code
+[2019-11-01T15:50:07Z] DEBUG Errors
+[2019-11-01T15:50:07Z] DEBUG Message
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/scheduled-payments 200
+[2019-11-01T15:50:07Z] DEBUG Data
+[2019-11-01T15:50:07Z] DEBUG Data.ScheduledPayment
+[2019-11-01T15:50:07Z] DEBUG Data.ScheduledPayment.Address.AccountId
+[2019-11-01T15:50:07Z] DEBUG Data.ScheduledPayment.Address.CreditorAccount
+[2019-11-01T15:50:07Z] DEBUG Data.ScheduledPayment.Address.CreditorAccount.Identification
+[2019-11-01T15:50:07Z] DEBUG Data.ScheduledPayment.Address.CreditorAccount.SchemeName
+[2019-11-01T15:50:07Z] DEBUG Data.ScheduledPayment.Address.CreditorAgent
+[2019-11-01T15:50:07Z] DEBUG Data.ScheduledPayment.Address.CreditorAgent.Identification
+[2019-11-01T15:50:07Z] DEBUG Data.ScheduledPayment.Address.CreditorAgent.SchemeName
+[2019-11-01T15:50:07Z] DEBUG Data.ScheduledPayment.Address.InstructedAmount
+[2019-11-01T15:50:07Z] DEBUG Data.ScheduledPayment.Address.InstructedAmount.Amount
+[2019-11-01T15:50:07Z] DEBUG Data.ScheduledPayment.Address.InstructedAmount.Currency
+[2019-11-01T15:50:07Z] DEBUG Data.ScheduledPayment.Address.Reference
+[2019-11-01T15:50:07Z] DEBUG Data.ScheduledPayment.Address.ScheduledPaymentDateTime
+[2019-11-01T15:50:07Z] DEBUG Data.ScheduledPayment.Address.ScheduledPaymentId
+[2019-11-01T15:50:07Z] DEBUG Data.ScheduledPayment.Address.ScheduledType
+[2019-11-01T15:50:07Z] DEBUG Links
+[2019-11-01T15:50:07Z] DEBUG Links.Self
+[2019-11-01T15:50:07Z] DEBUG Meta
+[2019-11-01T15:50:07Z] DEBUG Meta.TotalPages
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/scheduled-payments 401
+[2019-11-01T15:50:07Z] DEBUG Code
+[2019-11-01T15:50:07Z] DEBUG Errors
+[2019-11-01T15:50:07Z] DEBUG Message
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/standing-orders 200
+[2019-11-01T15:50:07Z] DEBUG Data
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.AccountId
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.CreditorAccount
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.CreditorAccount.Identification
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.CreditorAccount.Name
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.CreditorAccount.SchemeName
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.CreditorAccount.SecondaryIdentification
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.CreditorAgent
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.CreditorAgent.Identification
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.CreditorAgent.SchemeName
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.FinalPaymentAmount
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.FinalPaymentAmount.Amount
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.FinalPaymentAmount.Currency
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.FinalPaymentDateTime
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.FirstPaymentAmount
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.FirstPaymentAmount.Amount
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.FirstPaymentAmount.Currency
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.FirstPaymentDateTime
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.Frequency
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.NextPaymentAmount
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.NextPaymentAmount.Amount
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.NextPaymentAmount.Currency
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.NextPaymentDateTime
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.Reference
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.StandingOrderId
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.SupplementaryData
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.SupplementaryData.FirstRecurringPaymentAmount
+[2019-11-01T15:50:07Z] DEBUG Data.StandingOrder.Address.SupplementaryData.FirstRecurringPaymentDateTime
+[2019-11-01T15:50:07Z] DEBUG Links
+[2019-11-01T15:50:07Z] DEBUG Links.Self
+[2019-11-01T15:50:07Z] DEBUG Meta
+[2019-11-01T15:50:07Z] DEBUG Meta.TotalPages
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/standing-orders 401
+[2019-11-01T15:50:07Z] DEBUG Code
+[2019-11-01T15:50:07Z] DEBUG Errors
+[2019-11-01T15:50:07Z] DEBUG Message
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/statements 200
+[2019-11-01T15:50:07Z] DEBUG Data
+[2019-11-01T15:50:07Z] DEBUG Data.Statement
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.AccountId
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.CreationDateTime
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.EndDateTime
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.StartDateTime
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.StatementDescription
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.StatementFee
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.StatementFee.SchemeName.Amount
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.StatementFee.SchemeName.Amount.Amount
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.StatementFee.SchemeName.Amount.Currency
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.StatementFee.SchemeName.CreditDebitIndicator
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.StatementFee.SchemeName.Description
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.StatementFee.SchemeName.Frequency
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.StatementFee.SchemeName.Rate
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.StatementFee.SchemeName.RateType
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.StatementFee.SchemeName.Type
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.StatementId
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.StatementInterest
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.StatementInterest.SchemeName.Amount
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.StatementInterest.SchemeName.Amount.Amount
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.StatementInterest.SchemeName.Amount.Currency
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.StatementInterest.SchemeName.CreditDebitIndicator
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.StatementInterest.SchemeName.Description
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.StatementInterest.SchemeName.Frequency
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.StatementInterest.SchemeName.Rate
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.StatementInterest.SchemeName.RateType
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.StatementInterest.SchemeName.Type
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.StatementReference
+[2019-11-01T15:50:07Z] DEBUG Data.Statement.Address.Type
+[2019-11-01T15:50:07Z] DEBUG Links
+[2019-11-01T15:50:07Z] DEBUG Links.Self
+[2019-11-01T15:50:07Z] DEBUG Meta
+[2019-11-01T15:50:07Z] DEBUG Meta.FirstAvailableDateTime
+[2019-11-01T15:50:07Z] DEBUG Meta.LastAvailableDateTime
+[2019-11-01T15:50:07Z] DEBUG Meta.TotalPages
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/transactions 200
+[2019-11-01T15:50:07Z] DEBUG Data
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.AccountId
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.Amount
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.Amount.Amount
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.Amount.Currency
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.Balance
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.Balance.Amount
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.Balance.Amount.Amount
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.Balance.Amount.Currency
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.Balance.CreditDebitIndicator
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.Balance.Type
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.BankTransactionCode
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.BankTransactionCode.Code
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.BankTransactionCode.SubCode
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.BookingDateTime
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.CreditDebitIndicator
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.MerchantDetails
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.ProprietaryBankTransactionCode
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.ProprietaryBankTransactionCode.Code
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.Status
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.TransactionId
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.TransactionInformation
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.TransactionReference
+[2019-11-01T15:50:07Z] DEBUG Data.Transaction.Address.ValueDateTime
+[2019-11-01T15:50:07Z] DEBUG Links
+[2019-11-01T15:50:07Z] DEBUG Links.Self
+[2019-11-01T15:50:07Z] DEBUG Meta
+[2019-11-01T15:50:07Z] DEBUG Meta.FirstAvailableDateTime
+[2019-11-01T15:50:07Z] DEBUG Meta.LastAvailableDateTime
+[2019-11-01T15:50:07Z] DEBUG Meta.TotalPages
+[2019-11-01T15:50:07Z] DEBUG GET https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/transactions 401
+[2019-11-01T15:50:07Z] DEBUG Code
+[2019-11-01T15:50:07Z] DEBUG Errors
+[2019-11-01T15:50:07Z] DEBUG Message
+[2019-11-01T15:50:07Z] DEBUG POST https://ob19-auth1.o3bank.co.uk:4201/token 200
+[2019-11-01T15:50:07Z] DEBUG access_token
+[2019-11-01T15:50:07Z] DEBUG expires_in
+[2019-11-01T15:50:07Z] DEBUG token_type
+[2019-11-01T15:50:07Z] DEBUG POST https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp/account-access-consents 201
+[2019-11-01T15:50:07Z] DEBUG Data
+[2019-11-01T15:50:07Z] DEBUG Data.ConsentId
+[2019-11-01T15:50:07Z] DEBUG Data.CreationDateTime
+[2019-11-01T15:50:07Z] DEBUG Data.Permissions
+[2019-11-01T15:50:07Z] DEBUG Data.Status
+[2019-11-01T15:50:07Z] DEBUG Data.StatusUpdateDateTime
+[2019-11-01T15:50:07Z] DEBUG Data.TransactionFromDateTime
+[2019-11-01T15:50:07Z] DEBUG Data.TransactionToDateTime
+[2019-11-01T15:50:07Z] DEBUG Links
+[2019-11-01T15:50:07Z] DEBUG Links.Self
+[2019-11-01T15:50:07Z] DEBUG Meta
+[2019-11-01T15:50:07Z] DEBUG Risk
+[2019-11-01T15:50:07Z] DEBUG End Dump Properties===============
