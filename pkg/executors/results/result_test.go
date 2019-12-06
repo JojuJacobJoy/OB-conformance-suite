@@ -13,7 +13,10 @@ func TestNewTestCaseResult123(t *testing.T) {
 	assert := test.NewAssert(t)
 
 	err := errors.New("some error")
-	result := NewTestCaseResult("123", true, NoMetrics(), []error{err}, "endpoint", "api-name", "api-version", "detailed description", "https://openbanking.org.uk/ref/uri")
+	de := DetailError{
+		GeneralError: err.Error(),
+	}
+	result := NewTestCaseResult("123", true, NoMetrics(), []DetailError{de}, "endpoint", "api-name", "api-version", "detailed description", "https://openbanking.org.uk/ref/uri")
 
 	assert.Equal("123", result.Id)
 	assert.True(result.Pass)
@@ -25,8 +28,10 @@ func TestNewTestCaseResult321(t *testing.T) {
 	assert := test.NewAssert(t)
 
 	err := errors.New("some error")
-
-	result := NewTestCaseResult("321", true, NoMetrics(), []error{err}, "endpoint", "api-name", "api-version", "detailed description", "https://openbanking.org.uk/ref/uri")
+	de := DetailError{
+		GeneralError: err.Error(),
+	}
+	result := NewTestCaseResult("321", true, NoMetrics(), []DetailError{de}, "endpoint", "api-name", "api-version", "detailed description", "https://openbanking.org.uk/ref/uri")
 	assert.Equal("321", result.Id)
 	assert.True(result.Pass)
 	assert.Equal(NoMetrics(), result.Metrics)
@@ -36,8 +41,10 @@ func TestNewTestCaseResult321(t *testing.T) {
 func TestNewTestCaseFailResult(t *testing.T) {
 	assert := test.NewAssert(t)
 	err := errors.New("some error")
-
-	result := NewTestCaseFail("id", NoMetrics(), []error{err}, "endpoint", "api-name", "api-version", "detailed description", "https://openbanking.org.uk/ref/uri")
+	de := DetailError{
+		GeneralError: err.Error(),
+	}
+	result := NewTestCaseFail("id", NoMetrics(), []DetailError{de}, "endpoint", "api-name", "api-version", "detailed description", "https://openbanking.org.uk/ref/uri")
 
 	assert.Equal("id", result.Id)
 	assert.False(result.Pass)

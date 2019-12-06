@@ -6,6 +6,7 @@ import (
 	"crypto/tls"
 	"flag"
 	"fmt"
+	"github.com/google/go-cmp/cmp"
 	"io/ioutil"
 	"net"
 	"net/http"
@@ -26,8 +27,6 @@ import (
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/model"
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/server"
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/version"
-
-	"github.com/google/go-cmp/cmp"
 )
 
 var (
