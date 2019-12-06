@@ -10,7 +10,7 @@ import (
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/executors/results"
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/server/models"
 	internal_time "bitbucket.org/openbankingteam/conformance-suite/pkg/time"
-	validation "github.com/go-ozzo/ozzo-validation"
+	"github.com/go-ozzo/ozzo-validation"
 	"github.com/go-ozzo/ozzo-validation/is"
 	"github.com/google/uuid"
 )

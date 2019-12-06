@@ -2,6 +2,7 @@ package executors
 
 import (
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/authentication"
+	"bitbucket.org/openbankingteam/conformance-suite/pkg/executors/results"
 	"github.com/pkg/errors"
 
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/manifest"
@@ -195,7 +196,7 @@ func readPsuExchange() (model.TestCase, error) {
 	return sc, err
 }
 
-func (r *TestCaseRunner) executePaymentConsent(tc model.TestCase, ruleCtx *model.Context, log *logrus.Entry) (bool, []string) {
+func (r *TestCaseRunner) executePaymentConsent(tc model.TestCase, ruleCtx *model.Context, log *logrus.Entry) (bool, []results.DetailError) {
 	testresult := r.executeTest(tc, ruleCtx, log)
 	return testresult.Pass, testresult.Fail
 

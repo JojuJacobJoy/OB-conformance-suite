@@ -7,8 +7,6 @@ import (
 
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/schema"
 
-	"gopkg.in/resty.v1"
-
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
@@ -289,7 +287,7 @@ func (r *TestCaseRunner) executeComponentTests(comp *model.Component, ruleCtx *m
 			}).Debug("Sending item (TokenConsentIDItem) to consentIDChannel")
 			consentIDChannel <- item
 		} else if len(testResult.Fail) > 0 {
-			item.Error = testResult.Fail[0]
+			item.Error = testResult.Fail[0].Error()
 			consentIDChannel <- item
 		}
 	}
@@ -337,18 +335,24 @@ func (r *TestCaseRunner) executeTest(tc model.TestCase, ruleCtx *model.Context, 
 	req, err := tc.Prepare(ruleCtx)
 	if err != nil {
 		ctxLogger.WithError(err).Error("preparing executing test")
-		return results.NewTestCaseFail(tc.ID, results.NoMetrics(), []error{err}, tc.Input.Endpoint, tc.APIName, tc.APIVersion, tc.Detail, tc.RefURI)
+		de := results.DetailError{
+			GeneralError: err.Error(),
+		}
+		return results.NewTestCaseFail(tc.ID, results.NoMetrics(), []results.DetailError{de}, tc.Input.Endpoint, tc.APIName, tc.APIVersion, tc.Detail, tc.RefURI)
 	}
 	resp, metrics, err := r.executor.ExecuteTestCase(req, &tc, ruleCtx)
 	ctxLogger = logWithMetrics(ctxLogger, metrics)
 	if err != nil {
 		ctxLogger.WithError(err).WithFields(logrus.Fields{"result": "FAIL", "ID": tc.ID}).Error("test result")
-		return results.NewTestCaseFail(tc.ID, metrics, []error{err}, tc.Input.Endpoint, tc.APIName, tc.APIVersion, tc.Detail, tc.RefURI)
+		de := results.DetailError{
+			GeneralError: err.Error(),
+		}
+		return results.NewTestCaseFail(tc.ID, metrics, []results.DetailError{de}, tc.Input.Endpoint, tc.APIName, tc.APIVersion, tc.Detail, tc.RefURI)
 	}
 
 	result, errs := tc.Validate(resp, ruleCtx)
 	if errs != nil {
-		detailedErrors := detailedErrors(errs, resp)
+		detailedErrors := results.DetailedErrors(errs, resp)
 		ctxLogger.WithField("errs", detailedErrors).WithFields(logrus.Fields{"result": passText()[result], "ID": tc.ID}).Error("test result validate")
 		return results.NewTestCaseFail(tc.ID, metrics, detailedErrors, tc.Input.Endpoint, tc.APIName, tc.APIVersion, tc.Detail, tc.RefURI)
 	}
@@ -359,30 +363,7 @@ func (r *TestCaseRunner) executeTest(tc model.TestCase, ruleCtx *model.Context, 
 		ctxLogger.WithError(err).WithFields(logrus.Fields{"result": passText()[result], "ID": tc.ID}).Info("test result")
 	}
 
-	return results.NewTestCaseResult(tc.ID, result, metrics, []error{}, tc.Input.Endpoint, tc.APIName, tc.APIVersion, tc.Detail, tc.RefURI)
-}
-
-type DetailError struct {
-	EndpointResponse string `json:"endpointResponse"`
-	TestCaseMessage  string `json:"testCaseMessage"`
-}
-
-func (de DetailError) Error() string {
-	j, _ := json.Marshal(de)
-
-	return string(j)
-}
-
-func detailedErrors(errs []error, resp *resty.Response) []error {
-	detailedErrors := []error{}
-	for _, err := range errs {
-		detailedError := DetailError{
-			EndpointResponse: string(resp.Body()),
-			TestCaseMessage:  err.Error(),
-		}
-		detailedErrors = append(detailedErrors, detailedError)
-	}
-	return detailedErrors
+	return results.NewTestCaseResult(tc.ID, result, metrics, []results.DetailError{}, tc.Input.Endpoint, tc.APIName, tc.APIVersion, tc.Detail, tc.RefURI)
 }
 
 func passText() map[bool]string {
