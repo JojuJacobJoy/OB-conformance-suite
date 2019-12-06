@@ -66,8 +66,8 @@
                 v-for="error in row.item.error"
                 :key="error">
                 <ul>
-                  <li><strong>Test Case message:</strong> {{ JSON.parse(error).testCaseMessage }}</li>
-                  <li><strong>Endpoint response:</strong> {{ JSON.parse(error).endpointResponse }}</li>
+                  <li><strong>Test Case message:</strong> {{ error.testCaseMessage }}</li>
+                  <li><strong>Test Case message:</strong> {{ error.endpointResponse }}</li>
                 </ul>
               </li>
             </ol>
