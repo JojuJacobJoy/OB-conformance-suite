@@ -70,8 +70,8 @@ func TestTestCaseResultJsonMarshal(t *testing.T) {
 
 func fooBarDetailedError() DetailError {
 	return DetailError{
-		GeneralError: "some-error",
+		GeneralError:     "some-error",
 		EndpointResponse: `{"foo":"bar"}`,
-		TestCaseMessage: "same-test-case-message",
+		TestCaseMessage:  "same-test-case-message",
 	}
 }
