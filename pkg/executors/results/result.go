@@ -7,15 +7,15 @@ import (
 
 // TestCase result for a run
 type TestCase struct {
-	Id         string   `json:"id"`
-	Pass       bool     `json:"pass"`
-	Metrics    Metrics  `json:"metrics"`
+	Id         string        `json:"id"`
+	Pass       bool          `json:"pass"`
+	Metrics    Metrics       `json:"metrics"`
 	Fail       []DetailError `json:"fail,omitempty"`
-	Detail     string   `json:"detail"`
-	RefURI     string   `json:"refURI"`
-	Endpoint   string   `json:"endpoint"`
-	API        string   `json:"-"`
-	APIVersion string   `json:"-"`
+	Detail     string        `json:"detail"`
+	RefURI     string        `json:"refURI"`
+	Endpoint   string        `json:"endpoint"`
+	API        string        `json:"-"`
+	APIVersion string        `json:"-"`
 }
 
 // NewTestCaseFail returns a failed test
@@ -44,9 +44,9 @@ type ResultKey struct {
 }
 
 type DetailError struct {
-	GeneralError string `json:"generalError,omitempty"`
+	GeneralError     string      `json:"generalError,omitempty"`
 	EndpointResponse interface{} `json:"endpointResponse,omitempty"`
-	TestCaseMessage  string `json:"testCaseMessage,omitempty"`
+	TestCaseMessage  string      `json:"testCaseMessage,omitempty"`
 }
 
 func (de DetailError) Error() string {
@@ -60,7 +60,7 @@ func DetailedErrors(errs []error, resp *resty.Response) []DetailError {
 	for _, err := range errs {
 
 		detailedError := DetailError{
-			TestCaseMessage:  err.Error(),
+			TestCaseMessage: err.Error(),
 		}
 		err := json.Unmarshal(resp.Body(), &detailedError.EndpointResponse)
 		if err != nil {
