@@ -67,7 +67,7 @@
                 :key="error">
                 <ul>
                   <li><strong>Test Case message:</strong> {{ error.testCaseMessage }}</li>
-                  <li><strong>Test Case message:</strong> {{ error.endpointResponse }}</li>
+                  <li><strong>Endpoint response:</strong> {{ error.endpointResponse }}</li>
                 </ul>
               </li>
             </ol>
