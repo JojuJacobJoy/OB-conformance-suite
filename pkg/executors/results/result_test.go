@@ -1,7 +1,13 @@
 package results
 
 import (
+	"bytes"
 	"encoding/json"
+	"errors"
+	"github.com/stretchr/testify/assert"
+	"gopkg.in/resty.v1"
+	"io/ioutil"
+	"net/http"
 
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/test"
 
@@ -73,5 +79,87 @@ func fooBarDetailedError() DetailError {
 		GeneralError:     "some-error",
 		EndpointResponse: `{"foo":"bar"}`,
 		TestCaseMessage:  "same-test-case-message",
+	}
+}
+
+func TestDetailedErrors(t *testing.T) {
+	testTable := []struct{
+		errors []error
+		respBody []byte
+		expectedResult []DetailError
+	}{
+		{
+			errors: []error{ errors.New("an error")},
+			respBody: []byte(""),
+			expectedResult: []DetailError{
+				{
+					TestCaseMessage: "an error",
+					EndpointResponse: "",
+				},
+			},
+		},
+		{
+			errors: []error{ errors.New("an error")},
+			respBody: []byte(`sdsadasdas{{[[}sada"sd}\"s=a's=das-d\''asd""0asd8as7d6a5DAS6D7//DSADSADadadamasdm/`),
+			expectedResult: []DetailError{
+				{
+					TestCaseMessage: "an error",
+					EndpointResponse: `sdsadasdas{{[[}sada"sd}\"s=a's=das-d\''asd""0asd8as7d6a5DAS6D7//DSADSADadadamasdm/`,
+				},
+			},
+		},
+		{
+			errors: []error{ errors.New("an error")},
+			respBody: []byte(`{ "message": "This is valid JSON", "isValid": true }`),
+			expectedResult: []DetailError{
+				{
+					GeneralError: nil,
+					TestCaseMessage: "an error",
+					EndpointResponse: struct{
+						Message string `json:"message"`
+						IsValid bool `json:"isValid"`
+					}{
+						Message: "This is valid JSON",
+						IsValid: true,
+					},
+				},
+			},
+		},
+		{
+			errors: []error{ errors.New("an error")},
+			respBody: []byte(`<html><body>Some random html here <a href="https://www.openbanking.org.uk">link</a></body></html>`),
+			expectedResult: []DetailError{
+				{
+					TestCaseMessage: "an error",
+					EndpointResponse: `<html><body>Some random html here <a href="https://www.openbanking.org.uk">link</a></body></html>`,
+				},
+			},
+		},
+		{
+			errors: []error{ errors.New("foobar err 1"), errors.New("error 2")},
+			respBody: []byte(`<html><body>Some random html here <a href="https://www.openbanking.org.uk">link</a></body></html>`),
+			expectedResult: []DetailError{
+				{
+					TestCaseMessage: "foobar err 1",
+					EndpointResponse: `<html><body>Some random html here <a href="https://www.openbanking.org.uk">link</a></body></html>`,
+
+				},
+				{
+					TestCaseMessage: "error 2",
+					EndpointResponse: `<html><body>Some random html here <a href="https://www.openbanking.org.uk">link</a></body></html>`,
+				},
+			},
+		},
+	}
+
+	for _, testItem := range testTable {
+		restyResp := &resty.Response{
+			RawResponse: &http.Response{
+				Body: ioutil.NopCloser(bytes.NewReader(testItem.respBody)),
+			},
+		}
+		result := DetailedErrors(testItem.errors, restyResp)
+		assert.Len(t, result, len(testItem.errors))
+		assert.EqualValues(t, testItem.expectedResult, result)
 	}
 }
