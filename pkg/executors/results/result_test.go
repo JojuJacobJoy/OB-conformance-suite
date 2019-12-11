@@ -113,7 +113,6 @@ func TestDetailedErrors(t *testing.T) {
 			respBody: []byte(`{ "message": "This is valid JSON", "isValid": true }`),
 			expectedResult: []DetailError{
 				{
-					GeneralError: nil,
 					TestCaseMessage: "an error",
 					EndpointResponse: struct{
 						Message string `json:"message"`
