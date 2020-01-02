@@ -7,7 +7,7 @@ import (
 
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/schema"
 
-	"gopkg.in/resty.v1"
+	"github.com/go-resty/resty/v2"
 
 	"github.com/google/uuid"
 	"github.com/pkg/errors"

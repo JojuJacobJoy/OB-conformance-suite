@@ -1,7 +1,8 @@
 package test
 
 import (
-	resty "gopkg.in/resty.v1"
+	"bitbucket.org/openbankingteam/conformance-suite/pkg/netclient"
+	resty "github.com/go-resty/resty/v2"
 )
 
 // CreateHTTPResponse - helper to create an http response for test cases
@@ -33,7 +34,8 @@ func CreateHTTPResponse(respcode int, data ...string) *resty.Response {
 	}
 	mockedServer, mockedServerURL := HTTPServer(respcode, resBody, headers)
 	defer mockedServer.Close()
-	res, _ := resty.R().Get(mockedServerURL)
+	client := netclient.GetClient()
+	res, _ := client.R().Get(mockedServerURL)
 
 	return res
 }

@@ -5,13 +5,14 @@ import (
 	"net/http"
 	"regexp"
 
+	resty "github.com/go-resty/resty/v2"
 	"github.com/pkg/errors"
 	"github.com/tidwall/gjson"
-	resty "gopkg.in/resty.v1"
 
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/generation"
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/manifest"
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/model"
+	"bitbucket.org/openbankingteam/conformance-suite/pkg/netclient"
 	"github.com/sirupsen/logrus"
 )
 
@@ -93,11 +94,13 @@ func CallPaymentHeadlessConsentUrls(rt *[]manifest.RequiredTokens, ctx *model.Co
 	exhangeCodeRegex := "code=([^&]*)&"
 	consentedTokens := map[string]string{}
 
+	client := netclient.GetClient()
+
 	for _, tokendata := range *rt {
 		endpoint := tokendata.ConsentURL
 		var resp *resty.Response
 
-		resp, err := resty.R().
+		resp, err := client.R().
 			SetHeader("accept", "*/*").
 			Get(endpoint)
 
@@ -138,7 +141,7 @@ func CallPaymentHeadlessConsentUrls(rt *[]manifest.RequiredTokens, ctx *model.Co
 			return nil, err
 		}
 
-		resp, err = resty.R().
+		resp, err = client.R().
 			SetHeader("content-type", "application/x-www-form-urlencoded").
 			SetHeader("accept", "application/json").
 			SetHeader("authorization", "Basic "+params["basic_authentication"]).

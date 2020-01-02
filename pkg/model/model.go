@@ -14,7 +14,7 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/tracer"
-	"gopkg.in/resty.v1"
+	"github.com/go-resty/resty/v2"
 )
 
 // Manifest is the high level container for test suite definition

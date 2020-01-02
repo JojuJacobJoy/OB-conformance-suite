@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/authentication"
+	"bitbucket.org/openbankingteam/conformance-suite/pkg/netclient"
 	"github.com/pkg/errors"
 	"github.com/tdewolff/minify/v2"
 	minjson "github.com/tdewolff/minify/v2/json"
@@ -18,7 +19,7 @@ import (
 
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/tracer"
 	"github.com/dgrijalva/jwt-go"
-	"gopkg.in/resty.v1"
+	"github.com/go-resty/resty/v2"
 )
 
 // Input defines the content of the http request object used to execute the test case
@@ -59,7 +60,7 @@ func (i *Input) CreateRequest(tc *TestCase, ctx *Context) (*resty.Request, error
 		return nil, i.AppErr(fmt.Sprintf("error empty Endpoint(%s) or Method(%s)", i.Endpoint, i.Method))
 	}
 
-	req := resty.R() // create basic request that will be sent to endpoint
+	req := netclient.NewRequest() // create basic request that will be sent to endpoint
 
 	tc.Input.Endpoint, err = replaceContextField(tc.Input.Endpoint, ctx)
 	if err != nil {

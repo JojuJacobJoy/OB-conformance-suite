@@ -9,12 +9,13 @@ import (
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/generation"
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/manifest"
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/model"
+	"bitbucket.org/openbankingteam/conformance-suite/pkg/netclient"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/go-resty/resty/v2"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
-	resty "gopkg.in/resty.v1"
 )
 
 const (
@@ -256,9 +257,10 @@ func exchangeCodeForToken(code string, ctx *model.Context, logger *logrus.Entry)
 
 	var resp *resty.Response
 	var errResponse error
+	client := netclient.GetClient()
 	switch authMethod {
 	case authentication.ClientSecretBasic:
-		resp, errResponse = resty.R().
+		resp, errResponse = client.R().
 			SetHeader("content-type", "application/x-www-form-urlencoded").
 			SetHeader("accept", "application/json").
 			SetHeader("authorization", "Basic "+basicAuth).
@@ -269,7 +271,7 @@ func exchangeCodeForToken(code string, ctx *model.Context, logger *logrus.Entry)
 			}).
 			Post(tokenEndpoint)
 	case authentication.TlsClientAuth:
-		resp, errResponse = resty.R().
+		resp, errResponse = client.R().
 			SetHeader("content-type", "application/x-www-form-urlencoded").
 			SetHeader("accept", "application/json").
 			SetFormData(map[string]string{
@@ -318,7 +320,7 @@ func exchangeCodeForToken(code string, ctx *model.Context, logger *logrus.Entry)
 			return nil, errors.Wrap(err, "executors.exchangeCodeForToken: could not generate client_assertion")
 		}
 
-		resp, errResponse = resty.R().
+		resp, errResponse = client.R().
 			SetHeader("content-type", "application/x-www-form-urlencoded").
 			SetHeader("accept", "application/json").
 			SetFormData(map[string]string{

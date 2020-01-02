@@ -1,23 +1,21 @@
 package executors
 
 import (
-	"bytes"
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/authentication"
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/authentication/certificates"
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/executors/results"
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/model"
+	"bitbucket.org/openbankingteam/conformance-suite/pkg/netclient"
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/tracer"
 
+	"github.com/go-resty/resty/v2"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
-
-	"gopkg.in/resty.v1"
 )
 
 // TestCaseExecutor defines an interface capable of executing a testcase
@@ -125,7 +123,7 @@ func (e *Executor) setupTLSCertificate(tlsCert tls.Certificate) error {
 		},
 	}
 	tlsConfig.BuildNameToCertificate()
-	resty.SetTLSClientConfig(tlsConfig)
+	netclient.SetTLSClientConfig(tlsConfig)
 	return nil
 }
 
@@ -134,12 +132,17 @@ func (e *Executor) appMsg(msg string) {
 }
 
 func emptyResponse() *resty.Response {
+
 	return &resty.Response{
-		Request: resty.NewRequest(),
-		RawResponse: &http.Response{
-			Body:       ioutil.NopCloser(bytes.NewReader([]byte(`{}`))),
-			Status:     "-1 Ignore",
-			StatusCode: -1,
-		},
+		Request: resty.New().NewRequest(),
 	}
+
+	// return &resty.Response{
+	// 	Request: resty.New().NewRequest(),
+	// 	RawResponse: &http.Response{
+	// 		Body:       ioutil.NopCloser(bytes.NewReader([]byte(`{}`))),
+	// 		Status:     "-1 Ignore",
+	// 		StatusCode: -1,
+	// 	},
+	// }
 }

@@ -12,9 +12,9 @@ import (
 
 	"github.com/go-openapi/loads"
 	"github.com/go-openapi/spec"
+	"github.com/go-resty/resty/v2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"gopkg.in/resty.v1"
 )
 
 func TestLoadModel(t *testing.T) {

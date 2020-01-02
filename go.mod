@@ -15,6 +15,7 @@ require (
 	github.com/go-ozzo/ozzo-validation v3.5.0+incompatible
 	github.com/go-playground/locales v0.12.1 // indirect
 	github.com/go-playground/universal-translator v0.16.0 // indirect
+	github.com/go-resty/resty/v2 v2.1.0
 	github.com/golang/protobuf v1.3.1 // indirect
 	github.com/google/go-cmp v0.2.0
 	github.com/google/uuid v1.0.0
@@ -39,11 +40,10 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v0.0.0-20170224212429-dcecefd839c4 // indirect
 	github.com/x-cray/logrus-prefixed-formatter v0.5.2
-	golang.org/x/net v0.0.0-20190311183353-d8887717615a // indirect
 	golang.org/x/sys v0.0.0-20190415145633-3fd5a3612ccd // indirect
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/go-playground/validator.v9 v9.21.1
-	gopkg.in/resty.v1 v1.10.3
+	gopkg.in/resty.v1 v1.12.0
 )
 
 go 1.13

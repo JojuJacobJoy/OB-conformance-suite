@@ -9,6 +9,8 @@ import (
 
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/discovery"
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/generation"
+	"bitbucket.org/openbankingteam/conformance-suite/pkg/netclient"
+	"github.com/go-resty/resty/v2"
 
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/model"
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/server"
@@ -19,7 +21,6 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	prefixed "github.com/x-cray/logrus-prefixed-formatter"
-	"gopkg.in/resty.v1"
 )
 
 const (
@@ -144,7 +145,7 @@ func initConfig() {
 		if err != nil {
 			logrus.Warn("cannot set http trace file")
 		} else {
-			resty.SetLogger(httpLogFile)
+			netclient.SetLoggerFile(httpLogFile)
 		}
 	}
 
@@ -160,8 +161,8 @@ func initConfig() {
 		server.EnableTLSCheck(false)
 	}
 
-	resty.SetDebug(viper.GetBool("log_http_trace"))
-	resty.SetRedirectPolicy(resty.FlexibleRedirectPolicy(15))
+	netclient.SetDebug(viper.GetBool("log_http_trace"))
+	netclient.SetRedirectPolicy(resty.FlexibleRedirectPolicy(15))
 
 	printConfigurationFlags()
 }
