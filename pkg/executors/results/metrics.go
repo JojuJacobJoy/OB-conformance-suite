@@ -2,11 +2,11 @@ package results
 
 import (
 	"encoding/json"
-	"fmt"
 	"time"
 
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/model"
 	"github.com/go-resty/resty/v2"
+	"github.com/sirupsen/logrus"
 )
 
 type Metrics struct {
@@ -28,8 +28,8 @@ type Metrics struct {
 // response time decimal precision is up the nanosecond eg: 1.234ms
 func (m Metrics) MarshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
-		ResponseTime  float64       `json:"response_time,omitempty"`
-		ResponseSize  int           `json:"response_size,omitempty"`
+		ResponseTime  float64       `json:"response_time"`
+		ResponseSize  int           `json:"response_size"`
 		DNSLookup     time.Duration `json:"dns_lookup"`
 		ConnTime      time.Duration `json:"conn_time"`
 		TLSHandshake  time.Duration `json:"tls_handshake"`
@@ -49,16 +49,6 @@ func NoMetrics() Metrics {
 }
 
 func NewMetricsFromRestyResponse(testCase *model.TestCase, response *resty.Response) Metrics {
-	ti := response.Request.TraceInfo()
-	fmt.Println("DNSLookup    :", ti.DNSLookup)
-	fmt.Println("ConnTime     :", ti.ConnTime)
-	fmt.Println("TLSHandshake :", ti.TLSHandshake)
-	fmt.Println("ServerTime   :", ti.ServerTime)
-	fmt.Println("ResponseTime :", ti.ResponseTime)
-	fmt.Println("TotalTime    :", ti.TotalTime)
-	fmt.Println("IsConnReused :", ti.IsConnReused)
-	fmt.Println("IsConnWasIdle:", ti.IsConnWasIdle)
-	fmt.Println("ConnIdleTime :", ti.ConnIdleTime)
 
 	return NewMetricsWithTrace(testCase, response)
 
@@ -73,7 +63,22 @@ func NewMetrics(testCase *model.TestCase, responseTime time.Duration, responseSi
 }
 
 func NewMetricsWithTrace(testCase *model.TestCase, response *resty.Response) Metrics {
+
 	ti := response.Request.TraceInfo()
+	logrus.WithFields(logrus.Fields{
+		"CaseID":        testCase.ID,
+		"ResponseTime":  response.Time(),
+		"ResponseSize":  response.Size(),
+		"DNSLookup":     ti.DNSLookup,
+		"ConnTime":      ti.ConnTime,
+		"TLSHandshake":  ti.TLSHandshake,
+		"ServerTime":    ti.ServerTime,
+		"TotalTime":     ti.TotalTime,
+		"IsConnReused":  ti.IsConnReused,
+		"IsConnWasIdle": ti.IsConnWasIdle,
+		"ConnIdleTime":  ti.ConnIdleTime,
+	}).Trace("ResponseInfo")
+
 	return Metrics{
 		TestCase:      testCase,
 		ResponseTime:  response.Time(),

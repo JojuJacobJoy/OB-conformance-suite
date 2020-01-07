@@ -29,7 +29,3 @@ func TestNewMetrics(t *testing.T) {
 	assert.Equal(t, time.Second, metrics.ResponseTime)
 	assert.Equal(t, 1, metrics.ResponseSize)
 }
-
-func TestJSONMetrics(t *testing.T) {
-
-}

@@ -35,6 +35,7 @@ func getClient() *resty.Client {
 		}
 		if debug {
 			client.SetDebug(true)
+			client.EnableTrace()
 		}
 		if logfile != nil {
 			client.SetLogger(Logger{})

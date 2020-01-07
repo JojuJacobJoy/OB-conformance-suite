@@ -28,6 +28,17 @@ func TestLogToFile(t *testing.T) {
 	fmt.Printf("\nResponse Status: %v", resp.Status())
 	fmt.Printf("\nResponse Body: %v", resp)
 	fmt.Printf("\nResponse Time: %v", resp.Time())
-	fmt.Printf("\nResponse Received At: %v", resp.ReceivedAt())
+	fmt.Printf("\nResponse Received At: %v\n", resp.ReceivedAt())
+
+	ti := resp.Request.TraceInfo()
+	fmt.Println("DNSLookup    :", ti.DNSLookup)
+	fmt.Println("ConnTime     :", ti.ConnTime)
+	fmt.Println("TLSHandshake :", ti.TLSHandshake)
+	fmt.Println("ServerTime   :", ti.ServerTime)
+	fmt.Println("ResponseTime :", ti.ResponseTime)
+	fmt.Println("TotalTime    :", ti.TotalTime)
+	fmt.Println("IsConnReused :", ti.IsConnReused)
+	fmt.Println("IsConnWasIdle:", ti.IsConnWasIdle)
+	fmt.Println("ConnIdleTime :", ti.ConnIdleTime)
 
 }
