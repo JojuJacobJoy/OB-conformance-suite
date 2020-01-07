@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/model"
+	"github.com/go-resty/resty/v2"
 	"github.com/stretchr/testify/assert"
-	"gopkg.in/resty.v1"
 )
 
 func TestNewMetricsFromRestyResponse(t *testing.T) {
@@ -28,4 +28,8 @@ func TestNewMetrics(t *testing.T) {
 	assert.Equal(t, tc, metrics.TestCase)
 	assert.Equal(t, time.Second, metrics.ResponseTime)
 	assert.Equal(t, 1, metrics.ResponseSize)
+}
+
+func TestJSONMetrics(t *testing.T) {
+
 }

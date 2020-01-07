@@ -94,13 +94,11 @@ func CallPaymentHeadlessConsentUrls(rt *[]manifest.RequiredTokens, ctx *model.Co
 	exhangeCodeRegex := "code=([^&]*)&"
 	consentedTokens := map[string]string{}
 
-	client := netclient.GetClient()
-
 	for _, tokendata := range *rt {
 		endpoint := tokendata.ConsentURL
 		var resp *resty.Response
 
-		resp, err := client.R().
+		resp, err := netclient.NewRequest().
 			SetHeader("accept", "*/*").
 			Get(endpoint)
 
@@ -141,7 +139,7 @@ func CallPaymentHeadlessConsentUrls(rt *[]manifest.RequiredTokens, ctx *model.Co
 			return nil, err
 		}
 
-		resp, err = client.R().
+		resp, err = netclient.NewRequest().
 			SetHeader("content-type", "application/x-www-form-urlencoded").
 			SetHeader("accept", "application/json").
 			SetHeader("authorization", "Basic "+params["basic_authentication"]).

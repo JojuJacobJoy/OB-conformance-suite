@@ -7,7 +7,7 @@ import (
 )
 
 func TestLogToFile(t *testing.T) {
-	f, err := os.OpenFile("testdata/test.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
+	f, err := os.OpenFile("testdata/test.log", os.O_CREATE|os.O_WRONLY, 0644)
 	defer f.Close()
 	if err != nil {
 		fmt.Println("Error opening file")
@@ -17,11 +17,13 @@ func TestLogToFile(t *testing.T) {
 	SetDebug(true)
 	SetLoggerFile(f)
 
-	client := GetClient()
+	client := getClient()
 
 	resp, err := client.R().Get("http://httpbin.org/get")
 
-	fmt.Printf("\nError: %v", err)
+	if err != nil {
+		fmt.Printf("\nError: %v", err)
+	}
 	fmt.Printf("\nResponse Status Code: %v", resp.StatusCode())
 	fmt.Printf("\nResponse Status: %v", resp.Status())
 	fmt.Printf("\nResponse Body: %v", resp)

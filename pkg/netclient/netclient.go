@@ -27,7 +27,7 @@ func SetTLSClientConfig(config *tls.Config) {
 	tlsconfig = config
 }
 
-func GetClient() *resty.Client {
+func getClient() *resty.Client {
 	if client == nil {
 		client = resty.New()
 		if tlsconfig != nil {
@@ -42,7 +42,6 @@ func GetClient() *resty.Client {
 		if redirpolicy != nil {
 			client.SetRedirectPolicy(redirpolicy)
 		}
-
 	} else {
 		logrus.Debug("netclient:GetExistingClient")
 	}
@@ -50,19 +49,18 @@ func GetClient() *resty.Client {
 }
 
 func NewRequest() *resty.Request {
-	client := GetClient()
-	return client.R()
+	client := getClient()
+	return client.R().EnableTrace()
 }
 
 func SetDebug(debugflag bool) {
-	// debug = debugflag
-	// outlog = log.New(os.Stderr, "", 0)
-	// outlog.SetFlags(log.Flags() &^ (log.Ldate | log.Ltime))
+	debug = debugflag
 }
 
 func SetLoggerFile(lfile *os.File) {
 	debug = true
 	outlog = log.New(lfile, "", 0)
+	logfile = lfile
 	outlog.SetFlags(log.Flags() &^ (log.Ldate | log.Ltime))
 	outlog.SetOutput(lfile)
 }

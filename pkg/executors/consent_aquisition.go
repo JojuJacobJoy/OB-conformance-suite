@@ -257,10 +257,10 @@ func exchangeCodeForToken(code string, ctx *model.Context, logger *logrus.Entry)
 
 	var resp *resty.Response
 	var errResponse error
-	client := netclient.GetClient()
+
 	switch authMethod {
 	case authentication.ClientSecretBasic:
-		resp, errResponse = client.R().
+		resp, errResponse = netclient.NewRequest().
 			SetHeader("content-type", "application/x-www-form-urlencoded").
 			SetHeader("accept", "application/json").
 			SetHeader("authorization", "Basic "+basicAuth).
@@ -271,7 +271,7 @@ func exchangeCodeForToken(code string, ctx *model.Context, logger *logrus.Entry)
 			}).
 			Post(tokenEndpoint)
 	case authentication.TlsClientAuth:
-		resp, errResponse = client.R().
+		resp, errResponse = netclient.NewRequest().
 			SetHeader("content-type", "application/x-www-form-urlencoded").
 			SetHeader("accept", "application/json").
 			SetFormData(map[string]string{
@@ -320,7 +320,7 @@ func exchangeCodeForToken(code string, ctx *model.Context, logger *logrus.Entry)
 			return nil, errors.Wrap(err, "executors.exchangeCodeForToken: could not generate client_assertion")
 		}
 
-		resp, errResponse = client.R().
+		resp, errResponse = netclient.NewRequest().
 			SetHeader("content-type", "application/x-www-form-urlencoded").
 			SetHeader("accept", "application/json").
 			SetFormData(map[string]string{

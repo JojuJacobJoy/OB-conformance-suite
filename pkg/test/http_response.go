@@ -34,8 +34,7 @@ func CreateHTTPResponse(respcode int, data ...string) *resty.Response {
 	}
 	mockedServer, mockedServerURL := HTTPServer(respcode, resBody, headers)
 	defer mockedServer.Close()
-	client := netclient.GetClient()
-	res, _ := client.R().Get(mockedServerURL)
+	res, _ := netclient.NewRequest().Get(mockedServerURL)
 
 	return res
 }
