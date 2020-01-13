@@ -16,12 +16,21 @@ var (
 // Returns false is args is: `GOMAXPROCS=4 go test ./...`
 func computeIsParallel() bool {
 	// call flag.Parse() here if TestMain uses flags
+<<<<<<< HEAD
 	//flag.Parse()
 	//for _, arg := range os.Args {
 	//		if strings.HasPrefix(arg, "-test.parallel") {
 	//return true
 	//		}
 	//}
+=======
+	// flag.Parse()
+	// for _, arg := range os.Args {
+	// 	if strings.HasPrefix(arg, "-test.parallel") {
+	// 		return true
+	// 	}
+	// }
+>>>>>>> develop
 	return false
 }
 
