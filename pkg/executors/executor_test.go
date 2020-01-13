@@ -4,9 +4,9 @@ import (
 	"testing"
 
 	"bitbucket.org/openbankingteam/conformance-suite/pkg/authentication"
+	"bitbucket.org/openbankingteam/conformance-suite/pkg/netclient"
 
 	"github.com/stretchr/testify/require"
-	resty "gopkg.in/resty.v1"
 )
 
 const (
@@ -138,56 +138,46 @@ HJ2zHQe3vcccMRFHglcf1eo=
 func TestExecutor_SetCertificates(t *testing.T) {
 
 	t.Run("InvalidTransportCertificate", func(t *testing.T) {
-		require := require.New(t)
-
 		executor := NewExecutor()
-		require.NotNil(executor)
+		require.NotNil(t, executor)
 
 		certificateSigning, err := authentication.NewCertificate(signingPublic, signingPrivate)
-		require.NotNil(certificateSigning)
-		require.NoError(err)
+		require.NotNil(t, certificateSigning)
+		require.NoError(t, err)
 
 		certificateTransport, err := authentication.NewCertificate(signingPublic, signingPrivate)
-		require.NotNil(certificateTransport)
-		require.NoError(err)
+		require.NotNil(t, certificateTransport)
+		require.NoError(t, err)
 
-		require.NoError(executor.SetCertificates(certificateSigning, certificateTransport))
+		require.NoError(t, executor.SetCertificates(certificateSigning, certificateTransport))
 
-		// https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp
-		res, err := resty.R().Get("https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp")
-		require.NotNil(res)
-		require.NoError(err)
-
-		require.Equal(
-			"<html>\r\n<head><title>400 The SSL certificate error</title></head>\r\n<body bgcolor=\"white\">\r\n<center><h1>400 Bad Request</h1></center>\r\n<center>The SSL certificate error</center>\r\n<hr><center>nginx/1.14.1</center>\r\n</body>\r\n</html>\r\n",
-			string(res.Body()),
-		)
+		res, err := netclient.NewRequest().Get("https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp")
+		require.NotNil(t, res)
+		require.NoError(t, err)
+		_, _ = res, err
+		require.Contains(t, string(res.Body()), "The SSL certificate error")
 	})
 
 	t.Run("ValidTransportCertificate", func(t *testing.T) {
-		require := require.New(t)
 
 		executor := NewExecutor()
-		require.NotNil(executor)
+		require.NotNil(t, executor)
 
 		certificateSigning, err := authentication.NewCertificate(signingPublic, signingPrivate)
-		require.NotNil(certificateSigning)
-		require.NoError(err)
+		require.NotNil(t, certificateSigning)
+		require.NoError(t, err)
 
 		certificateTransport, err := authentication.NewCertificate(transportPublic, transportPrivate)
-		require.NotNil(certificateTransport)
-		require.NoError(err)
+		require.NotNil(t, certificateTransport)
+		require.NoError(t, err)
 
-		require.NoError(executor.SetCertificates(certificateSigning, certificateTransport))
+		require.NoError(t, executor.SetCertificates(certificateSigning, certificateTransport))
 
-		// https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp
-		res, err := resty.R().Get("https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp")
-		require.NotNil(res)
-		require.NoError(err)
+		res, err := netclient.NewRequest().Get("https://ob19-rs1.o3bank.co.uk:4501/open-banking/v3.1/aisp")
+		require.NotNil(t, res)
+		require.NoError(t, err)
 
-		require.Equal(
-			"<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /open-banking/v3.1/aisp</pre>\n</body>\n</html>\n",
-			string(res.Body()),
-		)
+		require.Contains(t, string(res.Body()), "Cannot GET /open-banking/v3.1/aisp")
+
 	})
 }

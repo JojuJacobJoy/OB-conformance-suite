@@ -10,9 +10,7 @@ import (
 )
 
 var (
-	tlscert     tls.Certificate
 	tlsconfig   *tls.Config
-	certSet     bool
 	debug       bool
 	client      *resty.Client
 	redirpolicy interface{}
@@ -23,8 +21,14 @@ var (
 type Logger struct {
 }
 
+func NewRequest() *resty.Request {
+	client := getClient()
+	return client.R().EnableTrace()
+}
+
 func SetTLSClientConfig(config *tls.Config) {
 	tlsconfig = config
+	client = nil
 }
 
 func getClient() *resty.Client {
@@ -47,11 +51,6 @@ func getClient() *resty.Client {
 		logrus.Debug("netclient:GetExistingClient")
 	}
 	return client
-}
-
-func NewRequest() *resty.Request {
-	client := getClient()
-	return client.R().EnableTrace()
 }
 
 func SetDebug(debugflag bool) {
