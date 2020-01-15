@@ -17,7 +17,7 @@ func TestNewMetricsFromRestyResponse(t *testing.T) {
 
 	assert.Equal(t, tc, metrics.TestCase)
 	assert.True(t, metrics.ResponseTime < time.Second)
-	assert.Equal(t, 0, metrics.ResponseSize)
+	assert.Equal(t, int64(0), metrics.ResponseSize)
 }
 
 func TestNewMetrics(t *testing.T) {
@@ -27,5 +27,5 @@ func TestNewMetrics(t *testing.T) {
 
 	assert.Equal(t, tc, metrics.TestCase)
 	assert.Equal(t, time.Second, metrics.ResponseTime)
-	assert.Equal(t, 1, metrics.ResponseSize)
+	assert.Equal(t, int64(1), metrics.ResponseSize)
 }

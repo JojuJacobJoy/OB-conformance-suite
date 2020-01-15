@@ -119,3 +119,19 @@ func TestLogToFile(t *testing.T) {
 	fmt.Println("ConnIdleTime :", ti.ConnIdleTime)
 
 }
+
+func TestTestCaseResultJsonMarshal2(t *testing.T) {
+	require := test.NewRequire(t)
+
+	myMetrics := Metrics{ResponseTime: 2929229292929,
+		DNSLookup: 502000, ConnTime: 1110202021, ServerTime: 12, IsConnReused: true, TLSHandshake: 100, ResponseSize: 1231, TotalTime: 12312, IsConnWasIdle: true, ConnIdleTime: 1110}
+
+	result := NewTestCaseResult("123", true, myMetrics, nil, "endpoint", "api-name", "api-version", "detailed description", "https://openbanking.org.uk/ref/uri")
+	expected := `{"id":"123","pass":true,"metrics":{"response_time":0,"response_size":1231,"dns_lookup":502,"conn_time":1111,"tls_handshake":100,"server_time":12,"total_time":12312,"is_conn_reused":true,"is_conn_was_idle":true,"conn_idle_time":1110},"detail":"detailed description","refURI":"https://openbanking.org.uk/ref/uri","endpoint":"endpoint"}`
+	actual, err := json.Marshal(result)
+	require.NoError(err)
+	require.NotEmpty(actual)
+
+	fmt.Println(string(actual))
+	require.JSONEq(expected, string(actual))
+}

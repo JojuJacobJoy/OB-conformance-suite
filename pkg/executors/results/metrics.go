@@ -28,19 +28,27 @@ type Metrics struct {
 // response time decimal precision is up the nanosecond eg: 1.234ms
 func (m Metrics) MarshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
-		ResponseTime  float64       `json:"response_time"`
-		ResponseSize  int           `json:"response_size"`
-		DNSLookup     time.Duration `json:"dns_lookup"`
-		ConnTime      time.Duration `json:"conn_time"`
-		TLSHandshake  time.Duration `json:"tls_handshake"`
-		ServerTime    time.Duration `json:"server_time"`
-		TotalTime     time.Duration `json:"total_time"`
-		IsConnReused  bool          `json:"is_conn_reused"`
-		IsConnWasIdle bool          `json:"is_conn_was_idle"`
-		ConnIdleTime  time.Duration `json:"conn_idle_time"`
+		ResponseTime  float64 `json:"response_time"`
+		ResponseSize  int     `json:"response_size"`
+		DNSLookup     float64 `json:"dns_lookup"`
+		ConnTime      float64 `json:"conn_time"`
+		TLSHandshake  float64 `json:"tls_handshake"`
+		ServerTime    float64 `json:"server_time"`
+		TotalTime     float64 `json:"total_time"`
+		IsConnReused  bool    `json:"is_conn_reused"`
+		IsConnWasIdle bool    `json:"is_conn_was_idle"`
+		ConnIdleTime  float64 `json:"conn_idle_time"`
 	}{
-		ResponseTime: float64(m.ResponseTime) / float64(time.Millisecond),
-		ResponseSize: int(m.ResponseSize),
+		ResponseTime:  float64(m.ResponseTime) / float64(time.Millisecond),
+		ResponseSize:  int(m.ResponseSize),
+		DNSLookup:     float64(m.DNSLookup) / float64(time.Millisecond),
+		ConnTime:      float64(m.ConnTime) / float64(time.Millisecond),
+		TLSHandshake:  float64(m.TLSHandshake) / float64(time.Millisecond),
+		ServerTime:    float64(m.ServerTime) / float64(time.Millisecond),
+		TotalTime:     float64(m.TotalTime) / float64(time.Millisecond),
+		IsConnReused:  m.IsConnReused,
+		IsConnWasIdle: m.IsConnWasIdle,
+		ConnIdleTime:  float64(m.ConnIdleTime) / float64(time.Millisecond),
 	})
 }
 
@@ -65,6 +73,7 @@ func NewMetrics(testCase *model.TestCase, responseTime time.Duration, responseSi
 func NewMetricsWithTrace(testCase *model.TestCase, response *resty.Response) Metrics {
 
 	ti := response.Request.TraceInfo()
+
 	logrus.WithFields(logrus.Fields{
 		"CaseID":        testCase.ID,
 		"ResponseTime":  response.Time(),
