@@ -530,8 +530,7 @@
             "resource": "Beneficiary",
             "method": "get",
             "asserts": [
-                "OB3GLOAssertOn401",
-                "OB3IPAssertHeaderMissingOBErrorCode"
+                "OB3GLOAssertOn401"
             ],
             "schemaCheck": false
         },
@@ -621,8 +620,7 @@
             "resource": "Beneficiary",
             "method": "get",
             "asserts": [
-                "OB3GLOAssertOn401",
-                "OB3IPAssertHeaderInvalidOBErrorCode"
+                "OB3GLOAssertOn401"
             ],
             "schemaCheck": false
         },
@@ -784,8 +782,7 @@
             "resource": "DirectDebit",
             "method": "get",
             "asserts": [
-                "OB3GLOAssertOn401",
-                "OB3IPAssertHeaderInvalidOBErrorCode"
+                "OB3GLOAssertOn401"
             ],
             "schemaCheck": false
         },
@@ -947,8 +944,7 @@
             "resource": "Offer",
             "method": "get",
             "asserts": [
-                "OB3GLOAssertOn401",
-                "OB3IPAssertHeaderInvalidOBErrorCode"
+                "OB3GLOAssertOn401"
             ],
             "schemaCheck": false
         },
@@ -1131,8 +1127,7 @@
             "resource": "Party",
             "method": "get",
             "asserts": [
-                "OB3GLOAssertOn401",
-                "OB3IPAssertHeaderInvalidOBErrorCode"
+                "OB3GLOAssertOn401"
             ],
             "schemaCheck": false
         },
@@ -1313,8 +1308,7 @@
             "resource": "Product",
             "method": "get",
             "asserts": [
-                "OB3GLOAssertOn401",
-                "OB3IPAssertHeaderInvalidOBErrorCode"
+                "OB3GLOAssertOn401"
             ],
             "schemaCheck": false
         },
@@ -1477,8 +1471,7 @@
             "resource": "ScheduledPayment",
             "method": "get",
             "asserts": [
-                "OB3GLOAssertOn401",
-                "OB3IPAssertHeaderInvalidOBErrorCode"
+                "OB3GLOAssertOn401"
             ],
             "schemaCheck": false
         },
@@ -1641,8 +1634,7 @@
             "resource": "StandingOrder",
             "method": "get",
             "asserts": [
-                "OB3GLOAssertOn401",
-                "OB3IPAssertHeaderInvalidOBErrorCode"
+                "OB3GLOAssertOn401"
             ],
             "schemaCheck": false
         },
