@@ -1,6 +1,5 @@
 {
-    "scripts": [
-        {
+    "scripts": [{
             "description": "Fails 404 on an invalid endpoint.",
             "id": "OB-301-ACC-001000",
             "refURI": "",
