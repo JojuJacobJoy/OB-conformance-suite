@@ -150,6 +150,42 @@
       "validateSignature": true
     },
     {
+      "description": "The correct error message is returned for domestic payment request without signature.",
+      "id": "OB-315-DOP-100610",
+      "refURI": "https://openbanking.atlassian.net/wiki/spaces/DZ/pages/999623013/Domestic+Payments+v3.1.1#DomesticPaymentsv3.1.1-POST/domestic-payments",
+      "detail": "ASPSP responds with a 400 status code AND UK.OBIE.Signature.Missing when x-jws-signature header is not present in the request.",
+      "parameters": {
+        "tokenRequestScope": "payments",
+        "consentId": "$OB-301-DOP-100300-ConsentId",
+        "thisSchemeName": "$creditorScheme",
+        "thisIdentification": "$creditorIdentification",
+        "instructionIdentification": "$OB-301-DOP-100300-instructionIdentification",
+        "endToEndIdentification": "e2e-domestic-pay",
+        "instructedAmountCurrency": "$instructedAmountCurrency",
+        "instructedAmountValue": "$instructedAmountValue",
+        "postData": "$minimalDomesticPaymentPost"
+      },
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "removeHeaders": ["x-jws-signature"],
+      "body": "$postData",
+      "uri": "/domestic-payments",
+      "uriImplementation": "mandatory",
+      "resource": "DomesticPayment",
+      "asserts": [
+        "OB3GLOAssertOn400",
+        "OB3IPAssertSignatureMissingOBErrorCode"
+      ],
+      "keepContextOnSuccess": {
+        "name": "OB-301-DOP-100600-DomesticPaymentId",
+        "value": "Data.DomesticPaymentId"
+      },
+      "method": "post",
+      "schemaCheck": true,
+      "validateSignature": true
+    },
+    {
       "description": "PISP can retrieve the Domestic Payment status.",
       "id": "OB-301-DOP-100700",
       "refURI": "https://openbanking.atlassian.net/wiki/spaces/DZ/pages/999623013/Domestic+Payments+v3.1.1#DomesticPaymentsv3.1.1-GET/domestic-payments/{DomesticPaymentId}",

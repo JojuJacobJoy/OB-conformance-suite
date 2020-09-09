@@ -182,6 +182,15 @@
         }]
       }
     },
+    "OB3IPAssertSignatureMissingOBErrorCode": {
+      "expect": {
+        "matches": [{
+          "JSON": "Errors.#[ErrorCode=\"UK.OBIE.Signature.Missing\"].ErrorCode",
+          "Value": "UK.OBIE.Signature.Missing",
+          "detail": "Expected a specific error code for missing signature."
+        }]
+      }
+    },
     "OB3IPAssertResourceInvalidConsentStatusOBErrorCode": {
       "expect": {
         "matches": [{
