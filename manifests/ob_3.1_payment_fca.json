@@ -177,10 +177,6 @@
         "OB3GLOAssertOn400",
         "OB3IPAssertSignatureMissingOBErrorCode"
       ],
-      "keepContextOnSuccess": {
-        "name": "OB-301-DOP-100600-DomesticPaymentId",
-        "value": "Data.DomesticPaymentId"
-      },
       "method": "post",
       "schemaCheck": true,
       "validateSignature": true
