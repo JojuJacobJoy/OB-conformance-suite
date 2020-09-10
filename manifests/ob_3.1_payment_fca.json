@@ -10,9 +10,12 @@
         "instructedAmountCurrency": "$instructedAmountCurrency",
         "instructedAmountValue": "$instructedAmountValue",
         "instructionIdentification": "$fn:instructionIdentificationID()",
+        "OB-301-DOP-100100-instructionIdentification": "$instructionIdentification",
         "endToEndIdentification": "e2e-domestic-pay",
         "postData": "$minimalDomesticPaymentConsent",
-        "requestConsent": "false"
+        "thisSchemeName": "$creditorScheme",
+        "thisIdentification": "$creditorIdentification",
+        "requestConsent": "true"
       },
       "headers": {
         "Content-Type": "application/json"
@@ -154,12 +157,13 @@
       "id": "OB-315-DOP-100610",
       "refURI": "https://openbanking.atlassian.net/wiki/spaces/DZ/pages/999623013/Domestic+Payments+v3.1.1#DomesticPaymentsv3.1.1-POST/domestic-payments",
       "detail": "ASPSP responds with a 400 status code AND UK.OBIE.Signature.Missing when x-jws-signature header is not present in the request.",
+      "apiVersion":">=3.1.6",
       "parameters": {
         "tokenRequestScope": "payments",
-        "consentId": "$OB-301-DOP-100300-ConsentId",
         "thisSchemeName": "$creditorScheme",
+        "consentId": "$OB-301-DOP-100100-ConsentId",
         "thisIdentification": "$creditorIdentification",
-        "instructionIdentification": "$OB-301-DOP-100300-instructionIdentification",
+        "instructionIdentification": "$OB-301-DOP-100100-instructionIdentification",
         "endToEndIdentification": "e2e-domestic-pay",
         "instructedAmountCurrency": "$instructedAmountCurrency",
         "instructedAmountValue": "$instructedAmountValue",
@@ -176,10 +180,10 @@
       "asserts": [
         "OB3GLOAssertOn400",
         "OB3IPAssertSignatureMissingOBErrorCode"
-      ],
+      ],      
       "method": "post",
-      "schemaCheck": true,
-      "validateSignature": true
+      "schemaCheck": false,
+      "validateSignature": false
     },
     {
       "description": "PISP can retrieve the Domestic Payment status.",
