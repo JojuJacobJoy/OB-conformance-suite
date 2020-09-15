@@ -94,11 +94,11 @@ func TestAssertions(t *testing.T) {
 			response: mockResponse{
 				400,
 				map[string]string{},
-				`{"Errors":[{"ErrorCode":"UK.OBIE.Signature.Missing"}]}`,
+				`{"Errors":[{"ErrorCode":"UK.OBIE.Resource.Mismatch"}]}`,
 			},
 			schemaSpec:                    *paymentSpecPath,
 			ExpectValidationPass:          true,
-			ExpectValidationErrorContains: "Signature.Missing",
+			ExpectValidationErrorContains: "Resource.Mismatch",
 		},
 		{
 			name:       "OB-315-DOP-100610 fails if ASPSP returns incorrect error",
@@ -110,15 +110,15 @@ func TestAssertions(t *testing.T) {
 			},
 			schemaSpec:                    *paymentSpecPath,
 			ExpectValidationPass:          false,
-			ExpectValidationErrorContains: "Signature.Missing",
+			ExpectValidationErrorContains: "Resource.Mismatch",
 		},
 		{
-			name:       "OB-315-DOP-100610 fails if ASPSP returns incorrect status code",
+			name:       "OB-315-DOP-100610 fails if ASPSP returns incorrect error code",
 			manifestID: "OB-315-DOP-100610",
 			response: mockResponse{
 				403,
 				map[string]string{},
-				`{"Errors":[{"ErrorCode":"UK.OBIE.Signature.Missing"}]}`,
+				`{"Errors":[{"ErrorCode":"UK.OBIE.Resource.Mismatch"}]}`,
 			},
 			schemaSpec:                    *paymentSpecPath,
 			ExpectValidationPass:          false,
@@ -141,7 +141,7 @@ func TestAssertions(t *testing.T) {
 			// 	fmt.Println("============", e)
 			// }
 			assert.True(t, errorsContain(errors, test.ExpectValidationErrorContains),
-				"%s: validation errors should contain an error with text: '%s'", test.name, test.ExpectValidationErrorContains)
+				"%s: validation errors should contain an error with text: '%s'\nERRORS:\n%v", test.name, test.ExpectValidationErrorContains, errors)
 		}
 		assert.Equal(t, test.ExpectValidationPass, result, "%s result - expected: %v actual: %v", test.name, test.ExpectValidationPass, result)
 	}

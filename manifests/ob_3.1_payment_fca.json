@@ -153,10 +153,10 @@
       "validateSignature": true
     },
     {
-      "description": "The correct error message is returned for domestic payment request without signature.",
+      "description": "The correct error message is returned for domestic payment request if payment details don't match the consent details.",
       "id": "OB-315-DOP-100610",
       "refURI": "https://openbanking.atlassian.net/wiki/spaces/DZ/pages/999623013/Domestic+Payments+v3.1.1#DomesticPaymentsv3.1.1-POST/domestic-payments",
-      "detail": "ASPSP responds with a 400 status code AND UK.OBIE.Signature.Missing when x-jws-signature header is not present in the request.",
+      "detail": "ASPSP responds with a 400 status code AND UK.OBIE.Resource.Mismatch when a field (endToEndIdentification) doesn't match the consent",
       "apiVersion":">=3.1.6",
       "parameters": {
         "tokenRequestScope": "payments",
@@ -164,7 +164,7 @@
         "consentId": "$OB-301-DOP-100100-ConsentId",
         "thisIdentification": "$creditorIdentification",
         "instructionIdentification": "$OB-301-DOP-100100-instructionIdentification",
-        "endToEndIdentification": "e2e-domestic-pay",
+        "endToEndIdentification": "e2e-domestic-pay-mismatched",
         "instructedAmountCurrency": "$instructedAmountCurrency",
         "instructedAmountValue": "$instructedAmountValue",
         "postData": "$minimalDomesticPaymentPost"
@@ -179,7 +179,7 @@
       "resource": "DomesticPayment",
       "asserts": [
         "OB3GLOAssertOn400",
-        "OB3IPAssertSignatureMissingOBErrorCode"
+        "OB3IPAssertResourceMismatchOBErrorCode"
       ],      
       "method": "post",
       "schemaCheck": false,

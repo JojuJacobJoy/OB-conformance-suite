@@ -191,6 +191,15 @@
         }]
       }
     },
+    "OB3IPAssertResourceMismatchOBErrorCode": {
+      "expect": {
+        "matches": [{
+          "JSON": "Errors.#[ErrorCode=\"UK.OBIE.Resource.Mismatch\"].ErrorCode",
+          "Value": "UK.OBIE.Resource.Mismatch",
+          "detail": "Expected a specific error code for resource mismatch."
+        }]
+      }
+    },
     "OB3IPAssertResourceInvalidConsentStatusOBErrorCode": {
       "expect": {
         "matches": [{
