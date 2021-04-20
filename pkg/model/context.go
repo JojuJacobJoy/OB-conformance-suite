@@ -19,7 +19,10 @@ func (c Context) Get(key string) (interface{}, bool) {
 	return value, exist
 }
 
-var ErrNotFound = errors.New("error key not found")
+var (
+	ErrNotFound     = errors.New("error key not found")
+	ErrNotStringKey = errors.New("error casting key to string")
+)
 
 // GetString get the string value associated with key
 func (c Context) GetString(key string) (string, error) {
@@ -30,7 +33,7 @@ func (c Context) GetString(key string) (string, error) {
 
 	valueStr, ok := value.(string)
 	if !ok {
-		return "", errors.New("error casting key to string")
+		return "", ErrNotStringKey
 	}
 
 	return valueStr, nil

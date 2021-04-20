@@ -1983,7 +1983,7 @@
         "x-fapi-interaction-id": "93bac548-d2de-4546-b106-880a5018460d"
       },
       "queryParameters":{
-        "fromStatementDateTime": "2016-01-01T10:40:00"
+        "fromStatementDateTime": "$fn:previousDayDateTime(2006-01-02T15:04:05)"
       },
       "headers": {
         "x-fapi-interaction-id": "$x-fapi-interaction-id"
@@ -2014,7 +2014,7 @@
         "x-fapi-interaction-id": "93bac548-d2de-4546-b106-880a5018460d"
       },
       "queryParameters":{
-        "fromStatementDateTime": "2016-01-01T104012.345Z"
+        "fromStatementDateTime": "$fn:previousDayDateTime(2006-01-02T150405.000)"
       },
       "headers": {
         "x-fapi-interaction-id": "$x-fapi-interaction-id"
@@ -2045,7 +2045,7 @@
         "x-fapi-interaction-id": "93bac548-d2de-4546-b106-880a5018460d"
       },
       "queryParameters":{
-        "fromStatementDateTime": "2016-01-01T10:40:12.34.567Z"
+        "fromStatementDateTime": "$fn:previousDayDateTime(2006-01-02T15:04:05.000)"
       },
       "headers": {
         "x-fapi-interaction-id": "$x-fapi-interaction-id"
@@ -2076,7 +2076,7 @@
         "x-fapi-interaction-id": "93bac548-d2de-4546-b106-880a5018460d"
       },
       "queryParameters":{
-        "fromStatementDateTime": "2016-01-01T10:40:12.34.567+01"
+        "fromStatementDateTime": "$fn:previousDayDateTime(2006-01-02T15:04:05.000+07)"
       },
       "headers": {
         "x-fapi-interaction-id": "$x-fapi-interaction-id"
@@ -2107,7 +2107,7 @@
         "x-fapi-interaction-id": "93bac548-d2de-4546-b106-880a5018460d"
       },
       "queryParameters":{
-        "fromStatementDateTime": "20160101T104012.567+01"
+        "fromStatementDateTime": "$fn:previousDayDateTime(20060102T150405.000+07)"
       },
       "headers": {
         "x-fapi-interaction-id": "$x-fapi-interaction-id"

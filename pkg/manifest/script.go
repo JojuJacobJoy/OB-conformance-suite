@@ -170,18 +170,21 @@ func GenerateTestCases(params *GenerationParameters) ([]model.TestCase, Scripts,
 			return nil, Scripts{}, err
 		}
 
-		addQueryParametersToRequest(&tc, script.QueryParameters)
+		// Add query parameters to the request
+		// allowing functions & references in  the query params
+		// the same way as with other paramters in 'processParameters'
+		for k, v := range script.QueryParameters {
+			value, err := resolveParameterValue(&refs, params.Ctx, k, v)
+			if err != nil {
+				return nil, Scripts{}, err
+			}
+			tc.Input.QueryParameters[k] = value
+		}
+
 		tests = append(tests, tc)
 	}
 
 	return tests, filteredScripts, nil
-}
-
-func addQueryParametersToRequest(tc *model.TestCase, parameters map[string]string) {
-	for k, v := range parameters {
-		// FormData is encoded to URL query parameters on "GET" requests
-		tc.Input.QueryParameters[k] = v
-	}
 }
 
 func addConditionalPropertiesToRequest(tc *model.TestCase, conditional []discovery.ConditionalAPIProperties, log *logrus.Entry) error {
@@ -225,55 +228,59 @@ func convertInputStringToArray(value string) []string {
 
 var fnReplacementRegex = regexp.MustCompile(`[^\$fn:]?\$fn:([\w|_]*)\(([\w,\s-,:,\.]*)\)`)
 
+func resolveParameterValue(refs *References, ctx *model.Context, k, value string) (string, error) {
+	if isFunction(value) {
+		fnName, fnArgs, err := fnNameAndArgs(value)
+		if err != nil {
+			return "", err
+		}
+
+		result, err := model.ExecuteMacro(fnName, fnArgs)
+		if err != nil {
+			return "", err
+		}
+
+		return result, nil
+	}
+
+	// if value is a reference
+	if strings.HasPrefix(value, "$") {
+		refName := value[1:]
+
+		// lookup value in the context
+		v, _ := ctx.GetString(refName)
+		if !isEmptyString(v) {
+			return value, nil
+		}
+
+		// lookup value in reference data
+		rv, found := refs.References[refName]
+		if found {
+			return rv.getValue(), nil
+		}
+	}
+
+	return value, nil
+}
+
 func (s *Script) processParameters(refs *References, resources *model.Context) (*model.Context, error) {
 	localCtx := model.Context{}
-
 	for k, value := range s.Parameters {
-		contextValue := value
 		if k == "consentId" {
 			localCtx.PutString("consentId", value)
 			continue
 		}
 
-		if isFunction(value) {
-			fnName, fnArgs, err := fnNameAndArgs(value)
-			if err != nil {
-				return nil, err
-			}
-			result, err := model.ExecuteMacro(fnName, fnArgs)
-			if err != nil {
-				logrus.Debugf("error executing function '%s' with parameters %s : %v", fnName, fnArgs, err)
-				return nil, err
-			}
-			localCtx.PutString(k, result)
-			continue
+		value, err := resolveParameterValue(refs, resources, k, value)
+		if err != nil {
+			return nil, err
 		}
 
-		if strings.Contains(value, "$") {
-			str := value[1:]
-			//lookup parameter in resources - accountids
-			value, _ = resources.GetString(str)
-			//lookup parameter in reference data
-			ref := refs.References[str]
-			val := ref.getValue()
-			if len(val) != 0 {
-				contextValue = val
-			}
-			if len(value) == 0 {
-				value, _ = localCtx.GetString(str)
-				if len(value) == 0 {
-					localCtx.PutString(k, contextValue)
-					continue
-				}
-			}
-		}
-		switch k {
-		case "tokenRequestScope":
-			localCtx.PutString("tokenScope", value)
-		default:
-			localCtx.PutString(k, value)
+		if !isEmptyString(value) {
+			localCtx.PutString(makeContextKey(k), value)
 		}
 	}
+
 	if len(s.Permissions) > 0 {
 		localCtx.PutStringSlice("permissions", s.Permissions)
 	}
@@ -281,6 +288,18 @@ func (s *Script) processParameters(refs *References, resources *model.Context) (
 		localCtx.PutStringSlice("permissions-excluded", s.PermissionsExcluded)
 	}
 	return &localCtx, nil
+}
+
+func isEmptyString(s string) bool {
+	return len(s) == 0
+}
+
+func makeContextKey(key string) string {
+	switch key {
+	case "tokenRequestScope":
+		return "tokenScope"
+	}
+	return key
 }
 
 func isFunction(param string) bool {
